@@ -4,11 +4,13 @@
   </div>
 </template>
 
-
+<script>
 export default {};
+</script>
+
 
 <style lang="less">
-@import url("http://at.alicdn.com/t/font_1897341_j53rs49i78.css");
+@import url("http://at.alicdn.com/t/font_1897341_tpki9kd5vzg.css");
 
 //清除默认样式
 * {
