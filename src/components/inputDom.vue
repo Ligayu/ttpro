@@ -1,7 +1,8 @@
 <template>
   <div class="InputDom">
+    <!-- 设置 Input type 的时候 input 重新渲染了, 然后就变成 blur ,因此可在type加多从父组件传过来的textType-->
     <input
-      :type="reciveType"
+      :type="reciveType || textType"
       :placeholder="placeholderText"
       v-model="textInput"
       :class="{ 
@@ -41,6 +42,11 @@ export default {
       console.log(newVal);
       console.log(this.flag);
 
+      //如果输入框还有错误就禁用button
+      if (!this.flag) {
+        this.$emit("forbidBtn");
+      }
+      //改变错误提示的红叉显示和隐藏
       if (!this.flag) {
         console.log(this.errorMsg);
         this.$refs.changStatus.style = "display:block";
@@ -52,7 +58,7 @@ export default {
   },
   methods: {
     cleanText() {
-      this.textInput = "";
+      this.textInput = ""; //当输入框为空时，用/^(\w{5,11}|\s?)$/来匹配0个或1个空格，这样错误红叉才会消失
       this.$refs.changStatus.style = "display:none";
     },
     toggleIcon() {
@@ -81,7 +87,6 @@ export default {
     width: 100%;
     height: 6.56vw;
     text-indent: 2em;
-    // border: none;
     border: 1px solid white;
   }
   .icon-guanbi {
@@ -96,13 +101,9 @@ export default {
     top: 1.78vw;
     right: 1.78vw;
     font-size: 4.33vw;
-    // display: none;
   }
   .error {
     border-color: red;
-  }
-  #error {
-    display: block;
   }
 }
 </style>
