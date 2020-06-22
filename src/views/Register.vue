@@ -4,27 +4,30 @@
       <span class="iconfont icon-longmao"></span>
     </div>
     <inputDom
-      type="text"
+      textType="text"
+      eyeIconShow="0"
       placeholderText="请输入用户名或手机号"
       standard="^(\w{5,11}|\s?)$"
       @changeBorder="changeName"
       errorMsg="请输入正确用户名或手机号"
     ></inputDom>
     <inputDom
-      type="text"
+      textType="text"
+      eyeIconShow="0"
       placeholderText="请输入昵称"
       standard="^(\w{3,9}|\s?)$"
       @changeBorder="changeNickname"
       errorMsg="请输入正确昵称"
     ></inputDom>
     <inputDom
-      type="password"
+      textType="password"
+      eyeIconShow="1"
       placeholderText="请输入密码"
       standard="^(\w{3,9}|\s?)$"
       @changeBorder="changePassword"
       errorMsg="请输入正确密码"
     ></inputDom>
-    <clickBtn defVal="注册"></clickBtn>
+    <clickBtn defVal="注册" @newClick="touchBtn"></clickBtn>
   </div>
 </template>
 
@@ -50,15 +53,21 @@ export default {
       this.username = data;
     },
     changePassword(data) {
-      this.psaaword = data;
+      this.password = data;
     },
     changeNickname(data) {
       this.nickname = data;
-    }
-  },
-  watch: {
-    username(newVal) {
-      console.log(this.username);
+    },
+    touchBtn() {
+      console.log("触发了注册按钮");
+      console.log(
+        "username:" +
+          this.username +
+          " password:" +
+          this.password +
+          " nickname" +
+          this.nickname
+      );
     }
   }
 };

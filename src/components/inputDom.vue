@@ -8,6 +8,7 @@
       success:flag,
       error:!flag
       }"
+      @blur="showTip"
     />
     <i v-if="eyeIconShow==='1'" :class="eye?openEye:closeEye" @click="toggleIcon"></i>
     <i class="iconfont icon-guanbi" ref="changStatus" @click="cleanText"></i>
@@ -26,6 +27,7 @@ export default {
       reciveType: ""
     };
   },
+  // eyeIconShow是父组件传过来的，判断输入框眼睛字体图标是否显示
   props: ["placeholderText", "textType", "standard", "errorMsg", "eyeIconShow"],
   watch: {
     textInput(newVal) {
@@ -59,6 +61,12 @@ export default {
       //应当定义一个子组件自己的data，再进行修改
       this.reciveType = this.reciveType === "password" ? "text" : "password";
       this.eye = !this.eye;
+    },
+    showTip() {
+      if (!this.flag) {
+        console.log("输入框失去焦点");
+        this.$toast.fail(this.errorMsg);
+      }
     }
   }
 };
