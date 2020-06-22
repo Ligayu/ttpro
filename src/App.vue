@@ -10,7 +10,7 @@ export default {};
 
 
 <style lang="less">
-@import url("http://at.alicdn.com/t/font_1897341_tpki9kd5vzg.css");
+@import url("http://at.alicdn.com/t/font_1897341_jzqbgpii5v.css");
 
 //清除默认样式
 * {

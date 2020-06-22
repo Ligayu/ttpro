@@ -1,7 +1,7 @@
 <template>
   <div class="InputDom">
     <input
-      :type="type"
+      :type="reciveType"
       :placeholder="placeholderText"
       v-model="textInput"
       :class="{ 
@@ -9,6 +9,7 @@
       error:!flag
       }"
     />
+    <i v-if="eyeIconShow==='1'" :class="eye?openEye:closeEye" @click="toggleIcon"></i>
     <i class="iconfont icon-guanbi" ref="changStatus" @click="cleanText"></i>
   </div>
 </template>
@@ -19,12 +20,19 @@ export default {
     return {
       textInput: "",
       flag: true,
-      Msg: ""
+      eye: "",
+      closeEye: "iconfont icon-yanjing1 eyeIcon",
+      openEye: "iconfont icon-yanjing eyeIcon",
+      reciveType: ""
     };
   },
-  props: ["placeholderText", "type", "standard", "errorMsg"],
+  props: ["placeholderText", "textType", "standard", "errorMsg", "eyeIconShow"],
   watch: {
     textInput(newVal) {
+      //把父组件传过来的文本类型储存在子组件的数据里
+      console.log(this.type);
+      this.reciveType = this.textType;
+
       let regExp = new RegExp(this.standard);
       console.log(regExp);
       this.flag = regExp.test(newVal);
@@ -37,13 +45,20 @@ export default {
       } else {
         this.$refs.changStatus.style = "display:none";
       }
-      this.$emit("changeBorder", newVal);
+      this.$emit("changeBorder", newVal); //创建一个事件并把数据从子组件中传出去
     }
   },
   methods: {
     cleanText() {
       this.textInput = "";
       this.$refs.changStatus.style = "display:none";
+    },
+    toggleIcon() {
+      // this.textType = this.textType === "password" ? "text" : "password";
+      //父组件更新，子组件中的prop值也会更新，但子组件不能修改由父组件传递过来的值
+      //应当定义一个子组件自己的data，再进行修改
+      this.reciveType = this.reciveType === "password" ? "text" : "password";
+      this.eye = !this.eye;
     }
   }
 };
@@ -61,15 +76,22 @@ export default {
     // border: none;
     border: 1px solid white;
   }
-  i {
+  .icon-guanbi {
     position: absolute;
     top: 1.78vw;
-    right: 1.78vw;
+    right: -4.78vw;
     display: none;
     color: red;
   }
+  .eyeIcon {
+    position: absolute;
+    top: 1.78vw;
+    right: 1.78vw;
+    font-size: 4.33vw;
+    // display: none;
+  }
   .error {
-    border-bottom-color: red;
+    border-color: red;
   }
   #error {
     display: block;

@@ -55,6 +55,11 @@ export default {
     changeNickname(data) {
       this.nickname = data;
     }
+  },
+  watch: {
+    username(newVal) {
+      console.log(this.username);
+    }
   }
 };
 </script>
@@ -70,10 +75,6 @@ export default {
       font-size: 22.22vw;
       color: rgb(159, 156, 151);
     }
-  }
-  .toRegister {
-    margin-top: 8.33vw;
-    text-align: center;
   }
 }
 </style>

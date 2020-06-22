@@ -4,7 +4,8 @@
       <span class="iconfont icon-longmao"></span>
     </div>
     <inputDom
-      type="text"
+      textType="text"
+      eyeIconShow="0"
       placeholderText="请输入用户名/手机号"
       standard="^(\w{5,11}|\s?)$"
       @changeBorder="changeName"
@@ -12,13 +13,15 @@
     ></inputDom>
     <!-- 创建了一个正则，是一个匹配字符串的规则 -->
     <inputDom
-      type="password"
+      textType="password"
+      eyeIconShow="1"
       placeholderText="请输入密码"
       standard="^(\w{3,9}|\s?)$"
       @changeBorder="changePassword"
-      errorMsg="请输入正确用户名或手机号"
+      errorMsg="请输入正确密码"
     ></inputDom>
-    <clickBtn defVal="登录"></clickBtn>
+    <clickBtn defVal="登录" @newClick="touchBtn"></clickBtn>
+    <!-- 若是直接在父组件注册点击事件则没有用 -->
     <div class="toRegister">
       <span>
         没有账号？
@@ -36,7 +39,8 @@ export default {
   data() {
     return {
       username: "",
-      psaaword: ""
+      password: ""
+      //   iconType: "password"
     };
   },
   components: {
@@ -48,7 +52,12 @@ export default {
       this.username = data;
     },
     changePassword(data) {
-      this.psaaword = data;
+      this.password = data;
+    },
+    touchBtn() {
+      console.log("触发了按钮");
+      console.log(this.username);
+      console.log(this.password);
     }
   }
 };
