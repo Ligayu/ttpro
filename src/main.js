@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router' //会自动找路径下的js文件，匹配到index.js
 
 
 // 1. 导入组件库
@@ -15,6 +15,10 @@ import axios from "axios";
 // 绑定到原型
 Vue.prototype.$axios = axios;
 
+
+//引入弹出层
+import { Popup } from 'vant';
+Vue.use(Popup);
 
 Vue.config.productionTip = false
 

@@ -33,9 +33,7 @@ export default {
   watch: {
     textInput(newVal) {
       //把父组件传过来的文本类型储存在子组件的数据里
-      console.log(this.type);
       this.reciveType = this.textType;
-
       let regExp = new RegExp(this.standard);
       console.log(regExp);
       this.flag = regExp.test(newVal);
@@ -43,9 +41,10 @@ export default {
       console.log(this.flag);
 
       //如果输入框还有错误就禁用button
-      if (!this.flag) {
-        this.$emit("forbidBtn");
-      }
+      // if (!this.flag) {
+      //   this.$emit("forbidBtn");
+      // }
+
       //改变错误提示的红叉显示和隐藏
       if (!this.flag) {
         console.log(this.errorMsg);

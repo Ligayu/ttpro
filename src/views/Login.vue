@@ -25,9 +25,13 @@
     <div class="toRegister">
       <span>
         没有账号？
-        <router-link to="/Register">注册</router-link>
+        <router-link to="/Register" style="color:rgb(255, 103, 0);">注册</router-link>
       </span>
     </div>
+    <!-- 过渡动画 -->
+    <van-popup class="gif" v-model="show">
+      <img src="@/assets/02.gif" alt />
+    </van-popup>
   </div>
 </template>
 
@@ -39,8 +43,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
-      //   iconType: "password"
+      password: "",
+      show: false
     };
   },
   components: {
@@ -56,8 +60,35 @@ export default {
     },
     touchBtn() {
       console.log("触发了按钮");
-      console.log(this.username);
-      console.log(this.password);
+      //输入值不能为空
+      if (!this.username || !this.password) {
+        this.$toast.fail("输入不能为空");
+        return;
+      }
+      this.$axios({
+        url: "http://127.0.0.1:3000/login",
+        method: "post",
+        data: {
+          username: this.username,
+          password: this.password
+        }
+      }).then(res => {
+        const { message, data } = res.data;
+        if (message === "登录成功") {
+          // this.$toast.success(message);
+          localStorage.setItem("userId", data.user.id);
+          localStorage.setItem("token", data.token);
+
+          //显示过渡动画
+          this.show = true;
+          setTimeout(() => {
+            this.show = false;
+            this.$router.push({ path: "/User" });
+          }, 3000);
+        } else {
+          this.$toast.fail(message);
+        }
+      });
     }
   }
 };
@@ -66,7 +97,7 @@ export default {
 <style lang='less' scoped>
 .contain {
   background-color: rgb(216, 237, 242);
-  height: 138.89vw;
+  height: 168.89vw;
   padding: 19.44vw 8.33vw 0;
   .logo {
     text-align: center;
@@ -78,6 +109,14 @@ export default {
   .toRegister {
     margin-top: 8.33vw;
     text-align: center;
+  }
+  .gif {
+    width: 36.33vw;
+    height: 28.33vw;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>
