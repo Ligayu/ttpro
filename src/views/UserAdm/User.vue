@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header" v-if="userInfo">
       <img class="imgBlur" :src="$axios.defaults.baseURL+userInfo.head_img" />
-      <div class="hd_content">
+      <div class="hd_content" @click="edit">
         <div class="headImg">
           <img :src="$axios.defaults.baseURL+userInfo.head_img" />
           <!-- <img src="@/assets/06.jpg" /> -->
@@ -71,6 +71,9 @@ export default {
     clickBtn
   },
   methods: {
+    edit() {
+      this.$router.push("/Edit");
+    },
     quitLogin() {
       console.log("退出登录");
       localStorage.removeItem("userId");
