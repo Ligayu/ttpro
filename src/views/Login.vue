@@ -59,14 +59,13 @@ export default {
       this.password = data;
     },
     touchBtn() {
-      console.log("触发了按钮");
       //输入值不能为空
       if (!this.username || !this.password) {
         this.$toast.fail("输入不能为空");
         return;
       }
       this.$axios({
-        url: "http://127.0.0.1:3000/login",
+        url: "/login",
         method: "post",
         data: {
           username: this.username,
@@ -110,9 +109,11 @@ export default {
     margin-top: 8.33vw;
     text-align: center;
   }
+  //过渡动画的样式
   .gif {
     width: 36.33vw;
     height: 28.33vw;
+    overflow: hidden;
     img {
       width: 100%;
       height: 100%;

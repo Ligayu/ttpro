@@ -10,7 +10,8 @@ import 'vant/lib/index.css'
 // 3. 注册 vant ui 组件库的标签
 Vue.use(Vant)
 
-
+// 引入请求库 axios
+// 1. 引入库
 import axios from "axios";
 // 绑定到原型
 Vue.prototype.$axios = axios;
@@ -21,6 +22,40 @@ import { Popup } from 'vant';
 Vue.use(Popup);
 
 Vue.config.productionTip = false
+
+
+
+
+
+// 设置基准路径
+axios.defaults.baseURL = 'http://127.0.0.1:3000'
+
+router.beforeEach((to, from, next) => {
+
+  //进入个人中心必须带有token
+  if (to.meta.permit) {
+    const permitKey = localStorage.getItem('token')
+    if (permitKey) next()
+    else {
+      console.log("请先登录");
+      router.push('/login')
+    }
+  } else next()
+})
+
+
+//单独引入一个toast，在还没挂载前，this.$toast用不了
+import { Toast } from 'vant';
+//axios拦截器，拦截有错误信息的请求
+axios.interceptors.response.use(res => {
+
+  // 对获取的数据进行处理
+  const { statusCode, message } = res.data
+  if (statusCode && statusCode == 401) {
+    Toast.fail(res.data.message)
+  }
+  return res
+})
 
 new Vue({
   router,

@@ -40,7 +40,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .container {
-  //   height: 100%;
+  height: 100%;
   background-color: rgb(252, 252, 252);
   .indexImage {
     img {
@@ -70,6 +70,7 @@ export default {
   .gif {
     width: 36.33vw;
     height: 28.33vw;
+    overflow: hidden;
     img {
       width: 100%;
       height: 100%;

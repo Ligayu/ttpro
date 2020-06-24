@@ -35,10 +35,7 @@ export default {
       //把父组件传过来的文本类型储存在子组件的数据里
       this.reciveType = this.textType;
       let regExp = new RegExp(this.standard);
-      console.log(regExp);
       this.flag = regExp.test(newVal);
-      console.log(newVal);
-      console.log(this.flag);
 
       //如果输入框还有错误就禁用button
       // if (!this.flag) {
@@ -47,7 +44,6 @@ export default {
 
       //改变错误提示的红叉显示和隐藏
       if (!this.flag) {
-        console.log(this.errorMsg);
         this.$refs.changStatus.style = "display:block";
       } else {
         this.$refs.changStatus.style = "display:none";
@@ -84,20 +80,21 @@ export default {
   input {
     outline: none;
     width: 100%;
-    height: 6.56vw;
+    height: 10.56vw;
     text-indent: 2em;
     border: 1px solid white;
+    border-radius: 1.67vw;
   }
   .icon-guanbi {
     position: absolute;
-    top: 1.78vw;
-    right: -4.78vw;
+    top: 2.78vw;
+    right: -6.78vw;
     display: none;
     color: red;
   }
   .eyeIcon {
     position: absolute;
-    top: 1.78vw;
+    top: 3.78vw;
     right: 1.78vw;
     font-size: 4.33vw;
   }

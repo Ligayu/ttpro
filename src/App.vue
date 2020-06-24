@@ -10,7 +10,7 @@ export default {};
 
 
 <style lang="less">
-@import url("http://at.alicdn.com/t/font_1897341_jzqbgpii5v.css");
+@import url("http://at.alicdn.com/t/font_1897341_q0g66g4svs8.css");
 
 //清除默认样式
 * {
@@ -30,5 +30,8 @@ ul,
 li,
 ol {
   list-style: none;
+}
+#app {
+  height: 174.17vw;
 }
 </style>

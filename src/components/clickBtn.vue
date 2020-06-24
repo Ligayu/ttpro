@@ -23,10 +23,12 @@ export default {
 
 <style lang='less' scoped>
 .Btn {
+  margin: 22.33vw auto 13vw;
+  width: 72.22vw;
   button {
     outline: none;
     color: white;
-    height: 8.33vw;
+    height: 10.33vw;
     border: none;
     border-radius: 4.17vw;
     background-color: rgb(255, 103, 0);
