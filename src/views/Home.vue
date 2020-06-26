@@ -6,14 +6,14 @@
     <div class="content">
       <span>欢迎回来！</span>
     </div>
-    <div class="link">
+    <!-- <div class="link">
       <span>
         <button @click="showPopup">登录</button>
       </span>
       <span>
         <button>注册</button>
       </span>
-    </div>
+    </div>-->
     <van-popup class="gif" v-model="show">
       <img src="@/assets/02.gif" alt />
     </van-popup>

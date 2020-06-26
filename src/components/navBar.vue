@@ -1,5 +1,5 @@
 <template>
-  <div class="bar" @click="actionSheet">
+  <div class="navBar" @click="actionSheet">
     <div class="itemBar">{{itemBar}}</div>
     <div class="barContent">{{barContent}}</div>
     <i class="iconfont icon-select2"></i>
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.bar {
+.navBar {
   display: flex;
   // background-color: rgb(242, 242, 242);
   background-color: white;

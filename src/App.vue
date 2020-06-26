@@ -10,13 +10,14 @@ export default {};
 
 
 <style lang="less">
-@import url("http://at.alicdn.com/t/font_1897341_b2xte5zm9o7.css");
+@import url("http://at.alicdn.com/t/font_1897341_sdclemrp4nr.css");
 @import url("./commonLess/transition.less");
 // @import url("@/css/transition.css");
 //清除默认样式
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 a {

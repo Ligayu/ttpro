@@ -16,12 +16,13 @@
         </div>
       </div>
       <i class="iconfont icon-shez setBtn" @click="edit"></i>
+      <i class="iconfont icon-home home" @click="toHome"></i>
     </div>
     <div class="content">
-      <navBar itemBar="我的关注" barContent="关注的用户"></navBar>
-      <navBar itemBar="我的回复" barContent="回复"></navBar>
-      <navBar itemBar="我的收藏" barContent="文章/视频"></navBar>
-      <navBar itemBar="设置" barContent></navBar>
+      <navBar itemBar="我的关注" barContent="关注的用户" @aSheet="clickFocus"></navBar>
+      <navBar itemBar="我的回复" barContent="回复" @aSheet="clickReplay"></navBar>
+      <navBar itemBar="我的收藏" barContent="文章/视频" @aSheet="clickCollection"></navBar>
+      <!-- <navBar itemBar="设置" barContent></navBar> -->
     </div>
     <div class="footer">
       <clickBtn defVal="退出登录" @newClick="quitLogin"></clickBtn>
@@ -74,12 +75,25 @@ export default {
       console.log("退出登录");
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
+
       //显示过渡动画
       this.show = true;
       setTimeout(() => {
         this.show = false;
         this.$router.replace("/login");
       }, 3000);
+    },
+    clickFocus() {
+      this.$router.push("/Focus");
+    },
+    clickReplay() {
+      this.$router.push("/Replay");
+    },
+    clickCollection() {
+      this.$router.push("/Collection");
+    },
+    toHome() {
+      this.$router.push("/index");
     }
   }
 };
@@ -140,6 +154,12 @@ export default {
       position: absolute;
       right: 5.56vw;
       top: 5.56vw;
+    }
+    .home {
+      position: absolute;
+      left: 4.56vw;
+      top: 4.56vw;
+      font-size: 6.33vw;
     }
   }
   //内容

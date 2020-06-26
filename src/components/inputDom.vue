@@ -1,6 +1,7 @@
 <template>
   <div class="InputDom">
     <!-- 设置 Input type 的时候 input 重新渲染了, 然后就变成 blur ,因此可在type加多从父组件传过来的textType-->
+    <!-- 当flag为true时，显示含有success类的css样式 -->
     <input
       :type="reciveType || textType"
       :placeholder="placeholderText"

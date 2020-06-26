@@ -40,9 +40,9 @@ Vue.use(Uploader);
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 
 
-//全局设置请求头
+// 全局设置请求头
 // axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.post['Content-Type'] = 'application/json'; //x-www-form-urlencoded
 
 
 //路由守卫
@@ -75,13 +75,15 @@ axios.interceptors.response.use(res => {
   return res
 })
 
-
+// 全局设置请求头
 axios.interceptors.request.use((config) => {
   if (!config.headers.Authorization && localStorage.getItem('token')) {
     config.headers.Authorization = localStorage.getItem('token'); //这里可以不加Bearer，浏览器有兼容性
   }
   return config;
 })
+
+
 new Vue({
   router,
   render: function (h) { return h(App) }
