@@ -1,13 +1,18 @@
 <template>
   <div class="backBar">
-    <i class="iconfont icon-tuichu"></i>
+    <i class="iconfont icon-tuichu" @click="back"></i>
     <span>{{hd_title}}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["hd_title"]
+  props: ["hd_title"],
+  methods: {
+    back() {
+      this.$emit("backBtn");
+    }
+  }
 };
 </script>
 

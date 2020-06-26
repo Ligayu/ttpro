@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header" v-if="userInfo">
       <img class="imgBlur" :src="$axios.defaults.baseURL+userInfo.head_img" />
-      <div class="hd_content" @click="edit">
+      <div class="hd_content">
         <div class="headImg">
           <img :src="$axios.defaults.baseURL+userInfo.head_img" />
           <!-- <img src="@/assets/06.jpg" /> -->
@@ -12,14 +12,11 @@
             <i v-if="userInfo.gender==1" class="iconfont icon-xingbie man"></i>
             <i v-else class="iconfont icon-xingbie1 women"></i>
             {{userInfo.nickname}}
+            <span>{{userInfo.create_date.split('T')[0]}}</span>
           </p>
-          <span>{{userInfo.create_date.split('T')[0]}}</span>
-        </div>
-        <div class="details">
-          <i class="iconfont icon-select2"></i>
         </div>
       </div>
-      <i class="iconfont icon-shez setBtn"></i>
+      <i class="iconfont icon-shez setBtn" @click="edit"></i>
     </div>
     <div class="content">
       <navBar itemBar="我的关注" barContent="关注的用户"></navBar>
@@ -52,9 +49,9 @@ export default {
     let userId = localStorage.getItem("userId");
     this.$axios({
       url: "/user/" + userId, //设置了全局基地址之后，这里会自动拼接上设置的
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      },
+      // headers: {
+      //   Authorization: "Bearer " + localStorage.getItem("token")
+      // },
       method: "get"
     }).then(res => {
       const { message, data } = res.data;
@@ -122,26 +119,22 @@ export default {
       }
       .userName {
         flex: 1;
-        text-align: center;
+        text-align: right;
         margin-top: 3.33vw;
         overflow: hidden;
+        font-size: 3.33vw;
+        font-weight: 700;
+        color: wheat;
         .man {
           color: skyblue;
         }
         .women {
           color: pink;
         }
-        // line-height: 16.67vw;
         span {
           display: block;
-          padding: 6px;
-          color: wheat;
+          padding: 1.67vw;
         }
-      }
-      .details {
-        line-height: 16.67vw;
-        // text-align: right;
-        color: wheat;
       }
     }
     .setBtn {
@@ -157,15 +150,15 @@ export default {
     margin: 8.78vw auto;
     overflow: hidden;
   }
-  //过渡动画的样式
-  .gif {
-    width: 36.33vw;
-    height: 28.33vw;
-    overflow: hidden;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
+  // //过渡动画的样式
+  // .gif {
+  //   width: 36.33vw;
+  //   height: 28.33vw;
+  //   overflow: hidden;
+  //   img {
+  //     width: 100%;
+  //     height: 100%;
+  //   }
+  // }
 }
 </style>

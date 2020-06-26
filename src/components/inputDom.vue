@@ -37,18 +37,13 @@ export default {
       let regExp = new RegExp(this.standard);
       this.flag = regExp.test(newVal);
 
-      //如果输入框还有错误就禁用button
-      // if (!this.flag) {
-      //   this.$emit("forbidBtn");
-      // }
-
       //改变错误提示的红叉显示和隐藏
       if (!this.flag) {
         this.$refs.changStatus.style = "display:block";
       } else {
         this.$refs.changStatus.style = "display:none";
       }
-      this.$emit("changeBorder", newVal); //创建一个事件并把数据从子组件中传出去
+      this.$emit("changeText", newVal); //创建一个事件并把输入框数据从子组件中传出去
     }
   },
   methods: {
@@ -80,21 +75,22 @@ export default {
   input {
     outline: none;
     width: 100%;
-    height: 10.56vw;
+    height: 12vw;
+
     text-indent: 2em;
     border: 1px solid white;
     border-radius: 1.67vw;
   }
   .icon-guanbi {
     position: absolute;
-    top: 2.78vw;
+    top: 3.78vw;
     right: -6.78vw;
     display: none;
     color: red;
   }
   .eyeIcon {
     position: absolute;
-    top: 3.78vw;
+    top: 4.78vw;
     right: 1.78vw;
     font-size: 4.33vw;
   }

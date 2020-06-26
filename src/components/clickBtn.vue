@@ -15,7 +15,6 @@ export default {
   methods: {
     clickBtn() {
       this.$emit("newClick");
-      console.log("从子组件传出去的点击事件");
     }
   }
 };

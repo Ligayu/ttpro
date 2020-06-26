@@ -8,7 +8,7 @@
       eyeIconShow="0"
       placeholderText="请输入用户名或手机号"
       standard="^(\w{5,11}|\s?)$"
-      @changeBorder="changeName"
+      @changeText="changeName"
       errorMsg="请输入正确用户名或手机号"
     ></inputDom>
     <inputDom
@@ -16,7 +16,7 @@
       eyeIconShow="0"
       placeholderText="请输入昵称"
       standard="^(.{3,9}|\s?)$"
-      @changeBorder="changeNickname"
+      @changeText="changeNickname"
       errorMsg="请输入正确昵称"
     ></inputDom>
     <inputDom
@@ -24,7 +24,7 @@
       eyeIconShow="1"
       placeholderText="请输入密码"
       standard="^(\w{3,9}|\s?)$"
-      @changeBorder="changePassword"
+      @changeText="changePassword"
       errorMsg="请输入正确密码"
     ></inputDom>
     <clickBtn defVal="注册" @newClick="touchBtn"></clickBtn>
@@ -106,15 +106,15 @@ export default {
       color: rgb(159, 156, 151);
     }
   }
-  //过渡动画的样式
-  .gif {
-    width: 36.33vw;
-    height: 28.33vw;
-    overflow: hidden;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
+  // //过渡动画的样式
+  // .gif {
+  //   width: 36.33vw;
+  //   height: 28.33vw;
+  //   overflow: hidden;
+  //   img {
+  //     width: 100%;
+  //     height: 100%;
+  //   }
+  // }
 }
 </style>

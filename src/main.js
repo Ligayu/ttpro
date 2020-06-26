@@ -24,6 +24,13 @@ Vue.use(Popup);
 Vue.config.productionTip = false
 
 
+//上弹输入框
+import { ActionSheet } from 'vant';
+Vue.use(ActionSheet);
+
+//图片上传
+import { Uploader } from 'vant';
+Vue.use(Uploader);
 
 
 
@@ -32,9 +39,15 @@ Vue.config.productionTip = false
 //axios在Vue的原型链上，赋值给了$axios
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 
-router.beforeEach((to, from, next) => {
 
-  //进入个人中心必须带有token
+//全局设置请求头
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+
+//路由守卫
+//进入个人中心必须带有token
+router.beforeEach((to, from, next) => {
   if (to.meta.permit) {
     const permitKey = localStorage.getItem('token')
     if (permitKey) next()
@@ -54,7 +67,10 @@ axios.interceptors.response.use(res => {
   // 对获取的数据进行处理
   const { statusCode, message } = res.data
   if (statusCode && statusCode == 401) {
-    Toast.fail(res.data.message)
+    Toast.fail("账户失效，请重新登录")
+    localStorage.removeItem('userId')
+    localStorage.removeItem('token')
+    router.replace('/login')
   }
   return res
 })

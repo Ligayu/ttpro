@@ -1,0 +1,10 @@
+.gif {
+  width: 36.33vw;
+  height: 28.33vw;
+  overflow: hidden;
+  border-radius: 2.22vw;
+}
+.gif img {
+  width: 110%;
+  height: 100%;
+}

@@ -8,7 +8,7 @@
       eyeIconShow="0"
       placeholderText="请输入用户名/手机号"
       standard="^(\w{5,11}|\s?)$"
-      @changeBorder="changeName"
+      @changeText="changeName"
       errorMsg="请输入正确用户名或手机号"
     ></inputDom>
     <!-- 创建了一个正则，是一个匹配字符串的规则 -->
@@ -17,7 +17,7 @@
       eyeIconShow="1"
       placeholderText="请输入密码"
       standard="^(\w{3,9}|\s?)$"
-      @changeBorder="changePassword"
+      @changeText="changePassword"
       errorMsg="请输入正确密码"
     ></inputDom>
     <clickBtn defVal="登录" @newClick="touchBtn"></clickBtn>
@@ -82,7 +82,7 @@ export default {
           this.show = true;
           setTimeout(() => {
             this.show = false;
-            this.$router.push({ path: "/User" });
+            this.$router.replace({ path: "/User" });
           }, 3000);
         } else {
           this.$toast.fail(message);
@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style lang='less' scoped>
+<style lang='less' scoped >
 .contain {
   background-color: rgb(216, 237, 242);
   height: 168.89vw;
@@ -110,14 +110,14 @@ export default {
     text-align: center;
   }
   //过渡动画的样式
-  .gif {
-    width: 36.33vw;
-    height: 28.33vw;
-    overflow: hidden;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
+  // .gif {
+  //   width: 36.33vw;
+  //   height: 28.33vw;
+  //   overflow: hidden;
+  //   img {
+  //     width: 100%;
+  //     height: 100%;
+  //   }
+  // }
 }
 </style>
