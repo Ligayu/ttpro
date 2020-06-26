@@ -1,5 +1,5 @@
 <template>
-  <div class="contain">
+  <div class="container">
     <div class="logo">
       <span class="iconfont icon-longmao"></span>
     </div>
@@ -59,6 +59,8 @@ export default {
       this.password = data;
     },
     touchBtn() {
+      console.log("click");
+
       //输入值不能为空
       if (!this.username || !this.password) {
         this.$toast.fail("输入不能为空");
@@ -85,6 +87,8 @@ export default {
             this.$router.replace({ path: "/User" });
           }, 3000);
         } else {
+          console.log(message);
+
           this.$toast.fail(message);
         }
       });
@@ -94,7 +98,7 @@ export default {
 </script>
 
 <style lang='less' scoped >
-.contain {
+.container {
   background-color: rgb(216, 237, 242);
   height: 168.89vw;
   padding: 19.44vw 8.33vw 0;

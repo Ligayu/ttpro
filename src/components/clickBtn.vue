@@ -6,11 +6,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      value: ""
-    };
-  },
   props: ["defVal"],
   methods: {
     clickBtn() {

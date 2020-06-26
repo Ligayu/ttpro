@@ -32,7 +32,7 @@ export default {
       this.show = true;
       setTimeout(() => {
         this.show = false;
-        this.$router.push("/login");
+        this.$router.replace("/login");
       }, 3000);
     }
   }
@@ -67,14 +67,14 @@ export default {
       }
     }
   }
-  .gif {
-    width: 36.33vw;
-    height: 28.33vw;
-    overflow: hidden;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
+  // .gif {
+  //   width: 36.33vw;
+  //   height: 28.33vw;
+  //   overflow: hidden;
+  //   img {
+  //     width: 100%;
+  //     height: 100%;
+  //   }
+  // }
 }
 </style>

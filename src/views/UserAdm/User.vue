@@ -5,7 +5,6 @@
       <div class="hd_content">
         <div class="headImg">
           <img :src="$axios.defaults.baseURL+userInfo.head_img" />
-          <!-- <img src="@/assets/06.jpg" /> -->
         </div>
         <div class="userName">
           <p>

@@ -1,5 +1,5 @@
 <template>
-  <div class="contain">
+  <div class="container">
     <div class="logo">
       <span class="iconfont icon-longmao"></span>
     </div>
@@ -95,7 +95,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.contain {
+.container {
   background-color: rgb(216, 237, 242);
   height: 100%;
   padding: 19.44vw 8.33vw 0;
