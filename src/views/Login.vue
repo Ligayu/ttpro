@@ -100,7 +100,7 @@ export default {
 <style lang='less' scoped >
 .container {
   background-color: rgb(216, 237, 242);
-  height: 168.89vw;
+  height: 100%;
   padding: 19.44vw 8.33vw 0;
   .logo {
     text-align: center;

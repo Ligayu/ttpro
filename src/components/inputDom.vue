@@ -76,8 +76,7 @@ export default {
   input {
     outline: none;
     width: 100%;
-    height: 12vw;
-
+    height: 11vw;
     text-indent: 2em;
     border: 1px solid white;
     border-radius: 1.67vw;

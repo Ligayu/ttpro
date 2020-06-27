@@ -5,8 +5,7 @@
       <p>{{name}}</p>
       <span>{{date.split('T')[0]}}</span>
     </div>
-    <button v-if="transFocus=='关注'" @click="disSub" class="sub">{{transFocus}}</button>
-    <button v-else @click="disSub" class="noSub">{{transFocus}}</button>
+    <button @click="disSub">{{transFocus}}</button>
   </div>
 </template>
 
@@ -49,12 +48,6 @@ export default {
     font-size: 3.61vw;
     border: none;
     margin-top: 3.44vw;
-    //
-  }
-  .sub {
-    background-color: rgb(255, 103, 0);
-  }
-  .noSub {
     background-color: rgb(225, 225, 225);
   }
 }

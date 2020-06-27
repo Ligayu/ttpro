@@ -10,7 +10,7 @@ export default {};
 
 
 <style lang="less">
-@import url("http://at.alicdn.com/t/font_1897341_sdclemrp4nr.css");
+@import url("http://at.alicdn.com/t/font_1897341_xyahtd4c04.css");
 @import url("./commonLess/transition.less");
 // @import url("@/css/transition.css");
 //清除默认样式
@@ -34,6 +34,8 @@ ol {
   list-style: none;
 }
 #app {
-  height: 174.17vw;
+  height: 192vw;
+  overflow: auto;
+  background-color: rgb(216, 237, 242);
 }
 </style>

@@ -13,15 +13,13 @@
       </div>
     </div>
 
-    <van-tabs v-model="active" swipeable class="hd_nav">
-      <van-tab v-for="index in 8" :title="'选项 ' + index" :key="index">{{ 4 }}</van-tab>
+    <van-tabs v-model="active" swipeable>
+      <van-tab v-for="(item,index) in categoryList" :title="item.name" :key="index">
+        <messageItem v-for="(item,index) in articleList" :key="index" :postData="item"></messageItem>
+      </van-tab>
     </van-tabs>
 
-    <div class="content">
-      <messageItem></messageItem>
-      <messageItem></messageItem>
-      <messageItem></messageItem>
-    </div>
+    <div class="content"></div>
   </div>
 </template>
 
@@ -31,16 +29,48 @@ import inputDom from "@/components/inputDom";
 export default {
   data() {
     return {
-      active: "a"
+      active: 0,
+      categoryList: [],
+      articleList: []
     };
   },
   components: {
     messageItem,
     inputDom
   },
+  mounted() {
+    this.$axios({
+      url: "/category",
+      method: "get"
+    }).then(res => {
+      this.categoryList = res.data.data;
+      this.getTabPosts();
+    });
+  },
   methods: {
     user() {
       this.$router.push("/User");
+    },
+    getTabPosts() {
+      const categoryId = this.categoryList[this.active].id;
+      this.$axios({
+        url: "/post",
+        method: "get",
+        // 如果是 get 请求可以使用 params 的属性来带参数
+        params: {
+          category: categoryId
+        }
+      }).then(res => {
+        const { data } = res.data;
+        console.log(data);
+        // 获取完了对应的文章列表数据,
+        this.articleList = data;
+      });
+    }
+  },
+  watch: {
+    active(newVal) {
+      this.getTabPosts();
     }
   }
 };
@@ -49,12 +79,14 @@ export default {
 <style lang="less" scoped>
 .container {
   height: 100%;
+  overflow: auto;
   background-color: rgb(216, 237, 242);
 
   .header {
     display: flex;
     padding-top: 2.22vw;
-    background-color: rgb(255, 169, 41);
+    // background-color: rgb(255, 169, 41);
+    background-color: khaki;
     height: 15.22vw;
     .hd_logo {
       width: 14.89vw;

@@ -112,7 +112,6 @@ export default {
       width: 100%;
       height: 100%;
       filter: blur(0.67vw);
-      // z-index: -233;
     }
     .hd_content {
       position: absolute;

@@ -27,14 +27,15 @@ export default {
       show: false
     };
   },
-  methods: {
-    showPopup() {
-      this.show = true;
-      setTimeout(() => {
-        this.show = false;
-        this.$router.replace("/login");
-      }, 3000);
-    }
+  mounted() {
+    // this.show = true;
+    // setTimeout(() => {
+    //   this.show = false;
+    //   this.$router.replace("/index");
+    // }, 3000);
+    setTimeout(() => {
+      this.$router.replace("/index");
+    }, 3000);
   }
 };
 </script>
@@ -67,14 +68,5 @@ export default {
       }
     }
   }
-  // .gif {
-  //   width: 36.33vw;
-  //   height: 28.33vw;
-  //   overflow: hidden;
-  //   img {
-  //     width: 100%;
-  //     height: 100%;
-  //   }
-  // }
 }
 </style>
