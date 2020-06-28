@@ -1,20 +1,24 @@
 <template>
   <div class="focusBar">
-    <img :src="$axios.defaults.baseURL+hd_img" />
+    <img :src="$axios.defaults.baseURL+transList.head_img" />
     <div class="fb_content">
-      <p>{{name}}</p>
-      <span>{{date.split('T')[0]}}</span>
+      <p>{{transList.nickname}}</p>
+      <span>{{transList.create_date.split('T')[0]}}</span>
     </div>
-    <button @click="disSub">{{transFocus}}</button>
+    <button v-if="isSub==true" @click="disSub">{{transFocus}}</button>
+    <button class="Subcolor" v-else @click="Sub">关注</button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["name", "date", "hd_img", "transFocus"],
+  props: ["transFocus", "isSub", "transList"],
   methods: {
     disSub() {
       this.$emit("changeSub");
+    },
+    Sub() {
+      this.$emit("turnSub");
     }
   }
 };
@@ -49,6 +53,9 @@ export default {
     border: none;
     margin-top: 3.44vw;
     background-color: rgb(225, 225, 225);
+  }
+  .Subcolor {
+    background-color: rgb(255, 103, 0);
   }
 }
 </style>

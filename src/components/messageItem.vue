@@ -3,19 +3,19 @@
     <div class="info_l">
       <p>{{postData.title}}</p>
     </div>
-    <div class="info_img" v-if="postData.type == 1 &&postData.cover.length<=3">
+    <div class="info_img" v-if="postData.type == 1 &&postData.cover.length<3">
       <img :src="postData.cover[0].url" alt />
       <img :src="postData.cover[1].url" alt v-if="postData.cover[1]" />
       <img :src="postData.cover[2].url" alt v-if="postData.cover[2]" />
     </div>
     <!-- 渲染视频 -->
-    <div class="info_img" v-if="postData.type == 2 && postData.cover.length<3">
+    <div class="info_img" v-if="postData.type == 2 && postData.cover.length>=1">
       <img :src="postData.cover[0].url" />
       <i class="iconfont icon-bofang"></i>
     </div>
     <div class="tips">
       <span>{{postData.user.nickname}}</span>
-      <i>{{postData.comment_length}}</i>
+      <i>{{comment}}：{{postData.comment_length}}</i>
       <i v-if="postData.comments">{{comment}}：{{postData.comments.length}}</i>
     </div>
   </div>

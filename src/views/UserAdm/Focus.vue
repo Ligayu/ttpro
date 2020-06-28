@@ -4,12 +4,12 @@
     <div class="fc_content">
       <focusBar
         v-for="(item,index) in focusList"
+        :transList="item"
         :key="index"
-        :name="item.nickname"
-        :date="item.create_date"
-        :hd_img="item.head_img"
-        @changeSub="userSub(item.id)"
+        @changeSub="unSub(item.id,index)"
         :transFocus="focus"
+        :isSub="item.isSub"
+        @turnSub="Sub(item.id,index)"
       ></focusBar>
     </div>
     <p v-if="listLength=='0'">
@@ -44,11 +44,18 @@ export default {
       url: "/user_follows",
       method: "get"
     }).then(res => {
-      this.focusList = res.data.data;
-      console.log(this.focusList);
-      if (res.data.data.length == 0) {
+      //实现取消关注时显示关注按钮
+      const remakeList = res.data.data.map(item => {
+        return {
+          ...item,
+          isSub: true
+        };
+      });
+      console.log(remakeList);
+      //实现关注人数为0时，显示“空空如也！”
+      this.focusList = remakeList;
+      if (remakeList.length == 0) {
         this.listLength = 0;
-        console.log(this.listLength);
       }
     });
   },
@@ -56,18 +63,31 @@ export default {
     backClick() {
       this.$router.go(-1);
     },
-    userSub(data) {
+    unSub(data, index) {
       this.$axios({
         url: "/user_unfollow/" + data,
         method: "get"
       }).then(res => {
-        if (res.data.message == "取消关注成功") {
-          //显示过渡动画
-          this.show = true;
-          setTimeout(() => {
-            this.show = false;
-            location.reload();
-          }, 2000);
+        this.focusList[index].isSub = false;
+        this.$toast.success(res.data.message);
+        // if (res.data.message == "取消关注成功") {
+        //   //显示过渡动画
+        //   this.show = true;
+        //   setTimeout(() => {
+        //     this.show = false;
+        //     location.reload();
+        //   }, 2000);
+        // }
+      });
+    },
+    Sub(id, index) {
+      this.$axios({
+        url: "/user_follows/" + id,
+        method: "get"
+      }).then(res => {
+        if (res.data.message == "关注成功") {
+          this.focusList[index].isSub = true;
+          this.$toast.success(res.data.message);
         }
       });
     }

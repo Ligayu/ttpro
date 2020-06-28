@@ -15,7 +15,7 @@
 
     <van-tabs v-model="active" swipeable>
       <van-tab v-for="(item,index) in categoryList" :title="item.name" :key="index">
-        <messageItem v-for="(item,index) in articleList" :key="index" :postData="item"></messageItem>
+        <messageItem v-for="(item,index) in articleList" :key="index" :postData="item" comment="评论"></messageItem>
       </van-tab>
     </van-tabs>
 
@@ -122,24 +122,5 @@ export default {
       }
     }
   }
-
-  //   .hd_nav {
-  //     display: flex;
-  //     margin-top: 2.22vw;
-  //     background-color: white;
-  //     border-radius: 16.67vw;
-  //     ul {
-  //       flex: 1;
-  //       display: flex;
-  //       padding: 3.33vw;
-  //       li {
-  //         margin-right: 4.33vw;
-  //       }
-  //     }
-  //     i {
-  //       padding: 4vw 6.33vw 0;
-  //       color: #ccc;
-  //     }
-  //   };
 }
 </style>
