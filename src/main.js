@@ -33,6 +33,11 @@ import { Uploader } from 'vant';
 Vue.use(Uploader);
 
 
+//列表加载
+// import { List } from 'vant'
+// Vue.use(List);
+//已经引入了import Vant from 'vant'，这里写不写没关系
+
 
 // 设置基准路径
 //组件模板渲染时，使用$axios.defaults.baseURL，因为Vue.prototype.$axios = axios
@@ -63,7 +68,6 @@ router.beforeEach((to, from, next) => {
 import { Toast } from 'vant';
 //axios拦截器，拦截有错误信息的请求
 axios.interceptors.response.use(res => {
-
   // 对获取的数据进行处理
   const { statusCode, message } = res.data
   if (statusCode && statusCode == 401) {
@@ -74,6 +78,18 @@ axios.interceptors.response.use(res => {
   }
   return res
 })
+
+//设置一个全局过滤器,用来筛选合适的地址
+Vue.filter("fixImgUrl", function () {
+  const fullUrlReg = /^http/
+  if (fullUrlReg.test(url)) {
+    return url
+  } else {
+    return axios.defaults.baseURL + url
+  }
+})
+
+
 
 // 全局设置请求头
 axios.interceptors.request.use((config) => {

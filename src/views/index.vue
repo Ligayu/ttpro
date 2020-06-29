@@ -15,7 +15,20 @@
 
     <van-tabs v-model="active" swipeable>
       <van-tab v-for="(item,index) in categoryList" :title="item.name" :key="index">
-        <messageItem v-for="(item,index) in articleList" :key="index" :postData="item" comment="评论"></messageItem>
+        <van-list
+          v-model="item.loading"
+          :finished="item.finished"
+          finished-text="没有更多了"
+          :immediate-check="false"
+          @load="onLoad"
+        >
+          <messageItem
+            v-for="(item,index) in item.postList"
+            :key="index"
+            :postData="item"
+            comment="评论"
+          ></messageItem>
+        </van-list>
       </van-tab>
     </van-tabs>
 
@@ -30,8 +43,7 @@ export default {
   data() {
     return {
       active: 0,
-      categoryList: [],
-      articleList: []
+      categoryList: []
     };
   },
   components: {
@@ -39,38 +51,82 @@ export default {
     inputDom
   },
   mounted() {
-    this.$axios({
-      url: "/category",
-      method: "get"
-    }).then(res => {
-      this.categoryList = res.data.data;
-      this.getTabPosts();
-    });
+    //获取文章栏目
+    this.getCategories();
   },
   methods: {
     user() {
       this.$router.push("/User");
     },
-    getTabPosts() {
+    getCategories() {
+      //获取文章栏目的函数
+      this.$axios({
+        url: "/category",
+        method: "get"
+      }).then(res => {
+        //往得到的分类列表里加两个键值对，pageIndex pageSize
+        const categoryCount = res.data.data.map(item => {
+          return {
+            ...item,
+            //加载组件的数据
+            loading: false, //为false时，表示非加载中，加载中，loading为true
+            finished: false, //为false时，表示加载未完成
+            pageIndex: 1,
+            pageSize: 3,
+            postList: []
+          };
+        });
+        console.log(categoryCount);
+        this.categoryList = categoryCount;
+        this.getArticlePosts();
+      });
+    },
+    onLoad() {
+      console.log("加载下一页");
+      const currentCategory = this.categoryList[this.active];
+      currentCategory.pageIndex += 1;
+
+      this.getArticlePosts(currentCategory);
+    },
+    getArticlePosts(data) {
+      //获取文章内容函数
       const categoryId = this.categoryList[this.active].id;
+      const currentCategory = this.categoryList[this.active]; //当前的栏目
+      //onload和getArticlePosts中的currentCategory
+      //对象使用的是引用赋值。当我们把一个对象赋值给一个新的变量时，赋的其实是该对象的在堆中的地址，
+      //而不是堆中的数据。也就是两个对象指向的是同一个存储空间，无论哪个对象发生改变，
+      //其实都是改变的存储空间的内容，因此，两个对象是联动的
+
       this.$axios({
         url: "/post",
         method: "get",
         // 如果是 get 请求可以使用 params 的属性来带参数
         params: {
-          category: categoryId
+          category: categoryId,
+          pageIndex: currentCategory.pageIndex,
+          pageSize: currentCategory.pageSize
         }
       }).then(res => {
         const { data } = res.data;
-        console.log(data);
+        // console.log(data);
         // 获取完了对应的文章列表数据,
-        this.articleList = data;
+        // this.articleList = data;
+        currentCategory.postList = [...currentCategory.postList, ...data];
+
+        // 这里加载完了文章列表数据, 然后需要手动将当前栏目的加载状态改回 false 也就是没有正在加载
+        // 这样子才能在下次拉到底的时候重新触发加载下一页
+        currentCategory.loading = false;
+
+        //判断获得的文章数是否已经少于本栏目规定一页要显示的文章数
+        if (res.data.data.length < currentCategory.pageSize) {
+          currentCategory.finished = true;
+        }
       });
     }
   },
   watch: {
     active(newVal) {
-      this.getTabPosts();
+      this.getArticlePosts();
     }
   }
 };
