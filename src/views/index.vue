@@ -126,7 +126,8 @@ export default {
   },
   watch: {
     active(newVal) {
-      this.getArticlePosts();
+      if (this.categoryList[newVal].postList.length == 0)
+        this.getArticlePosts();
     }
   }
 };
@@ -163,8 +164,9 @@ export default {
       }
       i {
         position: absolute;
-        top: 3.78vw;
+        top: 3.2vw;
         left: 2.39vw;
+        font-size: 4vw;
       }
     }
     .hd_user {

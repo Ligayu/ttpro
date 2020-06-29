@@ -92,6 +92,7 @@ Vue.filter("fixImgUrl", function () {
 
 
 // 全局设置请求头
+// 判断如果本地储存有 token 但是请求配置没有, 就要加上
 axios.interceptors.request.use((config) => {
   if (!config.headers.Authorization && localStorage.getItem('token')) {
     config.headers.Authorization = localStorage.getItem('token'); //这里可以不加Bearer，浏览器有兼容性

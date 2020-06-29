@@ -74,10 +74,11 @@ export default {
   position: relative;
   margin: 9.33vw 0;
   input {
+    font-size: 3.33vw;
     outline: none;
     width: 100%;
     height: 11vw;
-    text-indent: 2em;
+    text-indent: 7.67vw;
     border: 1px solid white;
     border-radius: 1.67vw;
   }
