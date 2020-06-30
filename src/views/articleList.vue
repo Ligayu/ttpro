@@ -15,14 +15,17 @@
         <div class="getContent" v-html="articleList.content"></div>
         <div class="con_footer">
           <div v-if="articleList.has_like==true" class="Btn" @click="agree">
-            <i class="iconfont icon-zanpress"></i>
-            <span>{{articleList.comment_length}}</span>
+            <i class="iconfont icon-zanpress zan"></i>
+            <span>{{articleList.like_length}}</span>
           </div>
           <div v-else class="Btn disagreeColor" @click="agree">
-            <i class="iconfont icon-zanpress"></i>
-            <span>{{articleList.comment_length}}</span>
+            <i class="iconfont icon-zanpress diszan"></i>
+            <span>{{articleList.like_length}}</span>
           </div>
-          <div class="Btn btnLeft">已关注</div>
+          <!-- 当has_like为false时，点赞后有个爱心向上飘的动画 -->
+          <i class="iconfont icon-main_girl likeAnimate" v-show="likeStatus"></i>
+          <div v-if="articleList.has_star==true" class="Btn starBtn" @click="star">已关注</div>
+          <div v-else class="Btn starBtn toStar" @click="star">关注</div>
         </div>
       </div>
       <!-- 渲染视频数据 -->
@@ -36,16 +39,19 @@
         </div>
         <div class="getContent">
           <video :src="$axios.defaults.baseURL+articleList.content"></video>
+          <!-- https://video.pearvideo.com/mp4/adshort/20200421/cont-1670293-15098199_adpkg-ad_hd.mp4-->
         </div>
         <div class="con_footer">
           <div v-if="articleList.has_like==true" class="Btn" @click="agree">
-            <i class="iconfont icon-zanpress"></i>
-            <span>{{articleList.comment_length}}</span>
+            <i class="iconfont icon-zanpress zan"></i>
+            <span>{{articleList.like_length}}</span>
           </div>
           <div v-else class="Btn disagreeColor" @click="agree">
-            <i class="iconfont icon-zanpress"></i>
-            <span>{{articleList.comment_length}}</span>
+            <i class="iconfont icon-zanpress diszan"></i>
+            <span>{{articleList.like_length}}</span>
           </div>
+          <!-- 当has_like为false时，点赞后有个爱心向上飘的动画 -->
+          <i class="iconfont icon-main_girl likeAnimate" v-show="likeStatus"></i>
           <div v-if="articleList.has_star==true" class="Btn starBtn" @click="star">已关注</div>
           <div v-else class="Btn starBtn toStar" @click="star">关注</div>
         </div>
@@ -66,7 +72,8 @@ import follows from "@/components/follows";
 export default {
   data() {
     return {
-      articleList: null
+      articleList: null,
+      likeStatus: ""
     };
   },
 
@@ -93,11 +100,13 @@ export default {
         method: "get"
       }).then(res => {
         if (res.data.message == "点赞成功") {
-          this.articleList.comment_length += 1;
+          this.articleList.like_length += 1;
           this.articleList.has_like = true;
+          this.likeStatus = true;
         } else {
-          this.articleList.comment_length -= 1;
+          this.articleList.like_length -= 1;
           this.articleList.has_like = false;
+          this.likeStatus = false;
         }
       });
     },
@@ -120,6 +129,30 @@ export default {
 
 <style lang="less" scoped>
 .container {
+  //定义动画
+  @keyframes LikeAni {
+    0% {
+      top: 0vw;
+      opacity: 0;
+    }
+    25% {
+      top: -1.11vw;
+      opacity: 0.25;
+    }
+    50% {
+      top: -2.78vw;
+      opacity: 0.5;
+    }
+    75% {
+      top: -3.89vw;
+      opacity: 0.75;
+    }
+    100% {
+      top: -5vw;
+      opacity: 1;
+    }
+  }
+
   // background-color: rgb(216, 237, 242);
   height: 100%;
   .article {
@@ -143,6 +176,7 @@ export default {
       .getContent {
         margin-top: 4.44vw;
         font-size: 3.8vw;
+        width: 100%;
         /deep/ .page {
           p {
             strong {
@@ -163,6 +197,8 @@ export default {
       .con_footer {
         display: flex;
         margin: 11.11vw auto;
+        height: 8.44vw;
+        position: relative;
         .Btn {
           border: 1px solid #ccc;
           margin-left: 11.11vw;
@@ -174,7 +210,7 @@ export default {
           width: 22vw;
           font-weight: 600;
           font-size: 3.61vw;
-          i {
+          .zan {
             font-size: 3.61vw;
             color: rgb(255, 103, 0);
           }
@@ -183,9 +219,17 @@ export default {
           }
         }
         .disagreeColor {
-          i {
+          .diszan {
             color: black;
           }
+        }
+        .likeAnimate {
+          position: absolute;
+          top: 1.67vw;
+          left: 16.67vw;
+          color: pink;
+          opacity: 0;
+          animation: LikeAni 1s ease-in;
         }
         .starBtn {
           font-weight: 600;
@@ -227,18 +271,17 @@ export default {
           }
           .photo {
             color: #333;
-
-            // font-size: 3.61vw;
-            img {
-              width: 100%;
-              margin: 3.33vw 0;
-            }
+          }
+          video {
+            width: 100%;
+            margin: 3.33vw 0;
           }
         }
       }
       .con_footer {
         display: flex;
         margin: 11.11vw auto;
+        position: relative;
         .Btn {
           border: 1px solid #ccc;
           margin-left: 11.11vw;
@@ -250,7 +293,7 @@ export default {
           width: 22vw;
           font-weight: 600;
           font-size: 3.61vw;
-          i {
+          .zan {
             font-size: 3.61vw;
             color: rgb(255, 103, 0);
           }
@@ -259,9 +302,17 @@ export default {
           }
         }
         .disagreeColor {
-          i {
+          .diszan {
             color: black;
           }
+        }
+        .likeAnimate {
+          position: absolute;
+          top: 1.67vw;
+          left: 16.67vw;
+          color: pink;
+          opacity: 0;
+          animation: LikeAni 1s ease-in;
         }
         .starBtn {
           font-weight: 600;
