@@ -14,16 +14,16 @@
     </div>
 
     <van-tabs v-model="active" swipeable>
-      <van-tab v-for="(item,index) in categoryList" :title="item.name" :key="index">
+      <van-tab v-for="(category,index) in categoryList" :title="category.name" :key="index">
         <van-list
-          v-model="item.loading"
-          :finished="item.finished"
+          v-model="category.loading"
+          :finished="category.finished"
           finished-text="没有更多了"
           :immediate-check="false"
           @load="onLoad"
         >
           <messageItem
-            v-for="(item,index) in item.postList"
+            v-for="(item,index) in category.postList"
             :key="index"
             :postData="item"
             comment="评论"
@@ -112,6 +112,7 @@ export default {
         // 获取完了对应的文章列表数据,
         // this.articleList = data;
         currentCategory.postList = [...currentCategory.postList, ...data];
+        console.log(currentCategory.postList);
 
         // 这里加载完了文章列表数据, 然后需要手动将当前栏目的加载状态改回 false 也就是没有正在加载
         // 这样子才能在下次拉到底的时候重新触发加载下一页

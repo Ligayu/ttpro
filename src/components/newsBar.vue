@@ -1,12 +1,18 @@
 <template>
   <div class="newsBar">
-    <i class="iconfont icon-tuichu"></i>
+    <i class="iconfont icon-tuichu" @click="backBtn"></i>
     <span class="iconfont icon-longmao"></span>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    backBtn() {
+      this.$emit("backClick");
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
