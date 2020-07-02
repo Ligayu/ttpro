@@ -5,6 +5,7 @@ import Login from "@/views/Login.vue";
 import Register from '@/views/Register.vue'
 import index from "@/views/index.vue"
 import articleList from "@/views/articleList.vue"
+import MoreComment from "@/views/MoreComment"
 //个人中心板块
 import User from "@/views/UserAdm/User.vue"
 import Edit from "@/views/UserAdm/Edit"
@@ -44,6 +45,11 @@ const routes = [
     path: '/articleList/:id',
     name: 'articleList',
     component: articleList
+  },
+  {
+    path: '/MoreComment/:id',
+    name: 'MoreComment',
+    component: MoreComment
   },
   //用户个人中心组件
   {

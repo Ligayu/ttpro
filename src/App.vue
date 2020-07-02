@@ -10,7 +10,7 @@ export default {};
 
 
 <style lang="less">
-@import url("http://at.alicdn.com/t/font_1897341_7fdjqyfbq24.css");
+@import url("http://at.alicdn.com/t/font_1897341_193gkz4z342.css");
 @import url("./commonLess/transition.less");
 // @import url("@/css/transition.css");
 //清除默认样式

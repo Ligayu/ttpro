@@ -24,8 +24,8 @@
           </div>
           <!-- 当has_like为false时，点赞后有个爱心向上飘的动画 -->
           <i class="iconfont icon-main_girl likeAnimate" v-show="likeStatus"></i>
-          <div v-if="articleList.has_star==true" class="Btn starBtn" @click="star">已关注</div>
-          <div v-else class="Btn starBtn toStar" @click="star">关注</div>
+          <div v-if="articleList.has_follow==true" class="Btn focusBtn" @click="focus">已关注</div>
+          <div v-else class="Btn focusBtn toFocus" @click="focus">关注</div>
         </div>
       </div>
       <!-- 渲染视频数据 -->
@@ -52,15 +52,18 @@
           </div>
           <!-- 当has_like为false时，点赞后有个爱心向上飘的动画 -->
           <i class="iconfont icon-main_girl likeAnimate" v-show="likeStatus"></i>
-          <div v-if="articleList.has_star==true" class="Btn starBtn" @click="star">已关注</div>
-          <div v-else class="Btn starBtn toStar" @click="star">关注</div>
+          <div v-if="articleList.has_follow==true" class="Btn focusBtn" @click="focus">已关注</div>
+          <div v-else class="Btn focusBtn toFocus" @click="focus">关注</div>
         </div>
       </div>
       <div class="follows_con">
         <p>精彩跟帖</p>
-        <follows></follows>
-        <follows></follows>
-        <follows></follows>
+        <follows v-for="item in transComments" :key="item.id" :commentData="item"></follows>
+        <articleBottom
+          :userid="$route.params.id"
+          @toCollection="collection"
+          :changeStar="articleList.has_star"
+        ></articleBottom>
       </div>
     </div>
   </div>
@@ -69,25 +72,38 @@
 <script>
 import newsBar from "@/components/newsBar";
 import follows from "@/components/follows";
+import articleBottom from "@/components/articleBottom";
 export default {
   data() {
     return {
       articleList: null,
-      likeStatus: ""
+      likeStatus: "",
+      transComments: []
     };
   },
 
   components: {
     newsBar,
-    follows
+    follows,
+    articleBottom
   },
   mounted() {
+    //渲染文章信息
     this.$axios({
       url: "/post/" + this.$route.params.id,
       method: "get"
     }).then(res => {
       this.articleList = res.data.data;
       console.log(this.articleList);
+    });
+    //渲染评论内容
+    this.$axios({
+      url: "/post_comment/" + this.$route.params.id,
+      method: "get"
+    }).then(res => {
+      // console.log(res.data);
+      this.transComments = res.data.data;
+      this.transComments.length = 3;
     });
   },
   methods: {
@@ -110,16 +126,30 @@ export default {
         }
       });
     },
-    star() {
+    focus() {
+      if (this.articleList.has_follow == true) {
+        this.articleList.has_follow = false;
+        this.$axios({
+          url: "/user_unfollow/" + this.articleList.user.id,
+          method: "get"
+        }).then(res => {});
+      } else {
+        this.articleList.has_follow = true;
+        this.$axios({
+          url: "/user_follows/" + this.articleList.user.id,
+          method: "get"
+        }).then(res => {});
+      }
+    },
+    collection() {
       this.$axios({
-        url: "/post_star/" + this.articleList.id,
-        method: "get"
+        url: "/post_star/" + this.articleList.id
       }).then(res => {
-        console.log(res.data);
-        if (res.data.message == "收藏成功") {
-          this.articleList.has_star = true;
-        } else {
+        console.log(res);
+        if (res.data.message == "取消成功") {
           this.articleList.has_star = false;
+        } else {
+          this.articleList.has_star = true;
         }
       });
     }
@@ -152,16 +182,17 @@ export default {
       opacity: 1;
     }
   }
-
   // background-color: rgb(216, 237, 242);
   height: 100%;
   .article {
     .art_content {
+      height: 138vw;
       width: 94.6vw;
       margin: 7.22vw 2.78vw 2.78vw;
       background-color: white;
       border-radius: 2.78vw;
       padding: 4.44vw 2.22vw;
+      overflow: auto;
       .tips {
         margin-top: 2.78vw;
         display: flex;
@@ -185,7 +216,6 @@ export default {
           }
           .photo {
             color: #333;
-
             // font-size: 3.61vw;
             img {
               width: 100%;
@@ -201,7 +231,7 @@ export default {
         position: relative;
         .Btn {
           border: 1px solid #ccc;
-          margin-left: 11.11vw;
+          margin-left: 11vw;
           background: white;
           border-radius: 3.33vw;
           height: 8.44vw;
@@ -231,12 +261,12 @@ export default {
           opacity: 0;
           animation: LikeAni 1s ease-in;
         }
-        .starBtn {
+        .focusBtn {
           font-weight: 600;
           font-size: 3.61vw;
           margin-left: 24.11vw;
         }
-        .toStar {
+        .toFocus {
           color: rgb(255, 103, 0);
         }
       }
@@ -314,25 +344,24 @@ export default {
           opacity: 0;
           animation: LikeAni 1s ease-in;
         }
-        .starBtn {
+        .focusBtn {
           font-weight: 600;
           font-size: 3.61vw;
           margin-left: 24.11vw;
         }
-        .toStar {
+        .toFocus {
           color: rgb(255, 103, 0);
         }
       }
     }
     .follows_con {
-      height: 86.33vw;
+      height: 102vw;
       width: 94.22vw;
       margin: 4.22vw 2.78vw 2.78vw;
       background-color: white;
       border-radius: 2.78vw;
-      padding-top: 4.44vw;
-      padding-left: 2.22vw;
-      padding-right: 2.22vw;
+      padding: 4.44vw 2.22vw 2.22vw;
+      overflow: auto;
       p {
         text-align: center;
       }
