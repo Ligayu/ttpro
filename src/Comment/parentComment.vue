@@ -1,6 +1,10 @@
 <template>
   <div class="parent">
-    <parentComment :parentData="parentData.parent" v-if="parentData.parent"></parentComment>
+    <parentComment
+      @parentReply="circleReply"
+      :parentData="parentData.parent"
+      v-if="parentData.parent"
+    ></parentComment>
 
     <div class="parent_content">
       <div class="ParentTip">
@@ -9,7 +13,7 @@
       </div>
       <div class="mainCon">
         <span>{{parentData.content}}</span>
-        <i>回复</i>
+        <i @click="parentReply">回复</i>
       </div>
     </div>
   </div>
@@ -18,7 +22,18 @@
 <script>
 export default {
   name: "parentComment",
-  props: ["parentData"]
+  props: ["parentData"],
+  methods: {
+    parentReply() {
+      this.$emit("parentReply", {
+        parent_id: this.parentData.id,
+        nickname: this.parentData.user.nickname
+      });
+    },
+    circleReply(parentInfo) {
+      this.$emit("parentReply", parentInfo);
+    }
+  }
 };
 </script>
 

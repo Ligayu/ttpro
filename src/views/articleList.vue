@@ -58,11 +58,14 @@
       </div>
       <div class="follows_con">
         <p>精彩跟帖</p>
-        <follows v-for="item in transComments" :key="item.id" :commentData="item"></follows>
+        <follows @ToReplay="Reply" v-for="item in transComments" :key="item.id" :commentData="item"></follows>
         <articleBottom
+          :setPlaceholder="articleList.user.nickname"
           :userid="$route.params.id"
           @toCollection="collection"
           :changeStar="articleList.has_star"
+          :transInfo="transData"
+          ref="controlInput"
         ></articleBottom>
       </div>
     </div>
@@ -78,10 +81,11 @@ export default {
     return {
       articleList: null,
       likeStatus: "",
-      transComments: []
+      transComments: [],
+      setPlaceholder: "",
+      transData: {}
     };
   },
-
   components: {
     newsBar,
     follows,
@@ -94,7 +98,7 @@ export default {
       method: "get"
     }).then(res => {
       this.articleList = res.data.data;
-      console.log(this.articleList);
+      // console.log(this.articleList);
     });
     //渲染评论内容
     this.$axios({
@@ -152,6 +156,13 @@ export default {
           this.articleList.has_star = true;
         }
       });
+    },
+    Reply(userInfo) {
+      this.transData = userInfo;
+      console.log("这里是传回来的数据");
+
+      console.log(this.transData);
+      this.$refs.controlInput.toSendcomment();
     }
   }
 };
@@ -362,9 +373,16 @@ export default {
       border-radius: 2.78vw;
       padding: 4.44vw 2.22vw 2.22vw;
       overflow: auto;
+      position: relative;
       p {
         text-align: center;
       }
+      // .articleBottom {
+      //   /deep/ .littleFunctiom {
+      //     position: fixed;
+      //     bottom: 0;
+      //   }
+      // }
     }
   }
 }

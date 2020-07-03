@@ -1,13 +1,18 @@
 <template>
   <div class="follows" v-if="commentData">
     <div class="hd_follow">
-      <img src alt />
+      <img src="@/assets/06.jpg" alt />
       <div class="followTip">
         <p>{{commentData.user.nickname}}</p>
         <i>{{commentData.create_date.split('T')[0]}}</i>
       </div>
+      <span @click="mainReply">回复</span>
     </div>
-    <parentComment :parentData="commentData.parent" v-if="commentData.parent"></parentComment>
+    <parentComment
+      @parentReply="TomainReply"
+      :parentData="commentData.parent"
+      v-if="commentData.parent"
+    ></parentComment>
     <div class="followContents">
       <span>{{commentData.content}}</span>
     </div>
@@ -20,6 +25,22 @@ export default {
   props: ["commentData"],
   components: {
     parentComment
+  },
+  methods: {
+    //从父评论传回来的父id和content
+    TomainReply(userInfo) {
+      this.$emit("ToReplay", userInfo);
+      // console.log(userInfo);
+    },
+    //主评论的回复
+    mainReply() {
+      console.log(this.commentData);
+      const userInfo = {
+        parent_id: this.commentData.id,
+        content: this.commentData.content
+      };
+      this.$emit("ToReplay", userInfo);
+    }
   }
 };
 </script>
@@ -52,15 +73,18 @@ export default {
         height: 4.78vw;
       }
     }
-    .followContents {
-      display: flex;
-      justify-content: space-between;
+    span {
+      color: #ccc;
+    }
+  }
+  .followContents {
+    display: flex;
+    justify-content: space-between;
 
-      /deep/ span {
-        margin-top: 3.89vw;
-        margin-left: 6vw;
-        font-size: 3.61vw;
-      }
+    /deep/ span {
+      margin-top: 3.89vw;
+      margin-left: 6vw;
+      font-size: 3.61vw;
     }
   }
 }
