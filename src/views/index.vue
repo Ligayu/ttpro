@@ -4,7 +4,7 @@
       <div class="hd_logo">
         <i class="iconfont icon-longmao"></i>
       </div>
-      <div class="hd_search">
+      <div class="hd_search" @click="$router.push('/Search')">
         <inputDom class="clearStyle" placeholderText="搜索新闻" />
         <i class="iconfont icon-sousuo"></i>
       </div>
@@ -12,25 +12,29 @@
         <i class="iconfont icon-wode"></i>
       </div>
     </div>
-
-    <van-tabs v-model="active" swipeable>
-      <van-tab v-for="(category,index) in categoryList" :title="category.name" :key="index">
-        <van-list
-          v-model="category.loading"
-          :finished="category.finished"
-          finished-text="没有更多了"
-          :immediate-check="false"
-          @load="onLoad"
-        >
-          <messageItem
-            v-for="(item,index) in category.postList"
-            :key="index"
-            :postData="item"
-            comment="评论"
-          ></messageItem>
-        </van-list>
-      </van-tab>
-    </van-tabs>
+    <div class="tansList">
+      <van-tabs v-model="active" swipeable>
+        <van-tab v-for="(category,index) in categoryList" :title="category.name" :key="index">
+          <!-- **需要禁止页面挂载时组件自动获取数据** (因为和我们的 mounted 操作重复了) :immediate-check="false" -->
+          <van-list
+            v-model="category.loading"
+            :finished="category.finished"
+            finished-text="没有更多了"
+            :immediate-check="false"
+            @load="onLoad"
+          >
+            <!-- @load="onLoad"下拉触底时触发onload函数 -->
+            <messageItem
+              v-for="(item,index) in category.postList"
+              :key="index"
+              :postData="item"
+              comment="评论"
+            ></messageItem>
+          </van-list>
+        </van-tab>
+      </van-tabs>
+      <i class="iconfont icon-xiajianhao" @click="$router.push('/Categorymanage')"></i>
+    </div>
 
     <div class="content"></div>
   </div>
@@ -127,6 +131,7 @@ export default {
   },
   watch: {
     active(newVal) {
+      //如果点击的栏目的postList没有数据，即长度为0，则加载，否则不加载，因为已有
       if (this.categoryList[newVal].postList.length == 0)
         this.getArticlePosts();
     }
@@ -179,6 +184,19 @@ export default {
       i {
         font-size: 8.44vw;
       }
+    }
+  }
+  .tansList {
+    position: relative;
+    i {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 12vw;
+      height: 12vw;
+      line-height: 12vw;
+      text-align: center;
+      background-color: white;
     }
   }
 }

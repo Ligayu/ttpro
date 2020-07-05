@@ -6,6 +6,8 @@ import Register from '@/views/Register.vue'
 import index from "@/views/index.vue"
 import articleList from "@/views/articleList.vue"
 import MoreComment from "@/views/MoreComment"
+import Search from "@/views/Search"
+import Categorymanage from "@/views/Categorymanage"
 //个人中心板块
 import User from "@/views/UserAdm/User.vue"
 import Edit from "@/views/UserAdm/Edit"
@@ -50,6 +52,16 @@ const routes = [
     path: '/MoreComment/:id',
     name: 'MoreComment',
     component: MoreComment
+  },
+  {
+    path: '/Search',
+    name: 'Search',
+    component: Search
+  },
+  {
+    path: '/Categorymanage',
+    name: 'Categorymanage',
+    component: Categorymanage
   },
   //用户个人中心组件
   {

@@ -1,5 +1,5 @@
 <template>
-  <div class="message">
+  <div class="message" v-if="postData">
     <div class="mes_content" @click="$router.push('/articleList/'+postData.id)">
       <div class="info_l">
         <p>{{postData.title}}</p>
@@ -26,12 +26,7 @@
 
 <script>
 export default {
-  props: ["postData", "comment"],
-  methods: {
-    toArticle() {
-      this.$emit("articleShow");
-    }
-  }
+  props: ["postData", "comment"]
 };
 </script>
 <style lang="less" scoped>

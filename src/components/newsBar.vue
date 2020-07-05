@@ -1,12 +1,14 @@
 <template>
   <div class="newsBar">
     <i class="iconfont icon-tuichu" @click="backBtn"></i>
+    <h3>{{title}}</h3>
     <span class="iconfont icon-longmao"></span>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["title"],
   methods: {
     backBtn() {
       this.$emit("backClick");

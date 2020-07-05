@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="article" v-if="articleList">
+    <div class="article" v-if="articleList ">
       <div class="art_hd">
         <newsBar @backClick="back"></newsBar>
       </div>
@@ -38,8 +38,13 @@
           </div>
         </div>
         <div class="getContent">
-          <video :src="$axios.defaults.baseURL+articleList.content"></video>
-          <!-- https://video.pearvideo.com/mp4/adshort/20200421/cont-1670293-15098199_adpkg-ad_hd.mp4-->
+          <!-- <video :src="$axios.defaults.baseURL+articleList.content"></video> -->
+          <!-- poster为视频添加封面 -->
+          <video
+            poster="https://cn.bing.com/th?id=OHR.HierapolisTurkey_ZH-CN6067183569_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
+            controls
+            src="https://video.pearvideo.com/mp4/adshort/20200421/cont-1670293-15098199_adpkg-ad_hd.mp4"
+          ></video>
         </div>
         <div class="con_footer">
           <div v-if="articleList.has_like==true" class="Btn" @click="agree">
@@ -56,11 +61,15 @@
           <div v-else class="Btn focusBtn toFocus" @click="focus">关注</div>
         </div>
       </div>
-      <div class="follows_con">
+      <div class="follows_con" v-if="transComments">
         <p>精彩跟帖</p>
-        <follows @ToReplay="Reply" v-for="item in transComments" :key="item.id" :commentData="item"></follows>
+        <follows
+          @ToReplay="Reply"
+          v-for="(item,index) in transComments"
+          :key="index"
+          :commentData="item"
+        ></follows>
         <articleBottom
-          :setPlaceholder="articleList.user.nickname"
           :userid="$route.params.id"
           @toCollection="collection"
           :changeStar="articleList.has_star"
@@ -82,7 +91,6 @@ export default {
       articleList: null,
       likeStatus: "",
       transComments: [],
-      setPlaceholder: "",
       transData: {}
     };
   },
@@ -301,23 +309,24 @@ export default {
           margin-left: 4.44vw;
         }
       }
-      .getContent {
+      /deep/ .getContent {
         margin-top: 4.44vw;
         font-size: 3.8vw;
-        /deep/ .page {
-          p {
-            strong {
-              margin: 8vw 0;
-            }
-          }
-          .photo {
-            color: #333;
-          }
-          video {
-            width: 100%;
-            margin: 3.33vw 0;
-          }
+        width: 100%;
+        video {
+          width: 100%;
+          margin: 3.33vw 0;
         }
+        // /deep/ .page {
+        //   span {
+        //     strong {
+        //       margin: 8vw 0;
+        //     }
+        //   }
+        //   .photo {
+        //     color: #333;
+        //   }
+        // }
       }
       .con_footer {
         display: flex;
