@@ -64,11 +64,14 @@ export default {
     },
     getCategories() {
       //获取文章栏目的函数
-      this.$axios({
-        url: "/category",
-        method: "get"
-      }).then(res => {
-        //往得到的分类列表里加两个键值对，pageIndex pageSize
+      console.log(JSON.parse(localStorage.getItem("category")));
+
+      if (JSON.parse(localStorage.getItem("category"))) {
+        let res = {
+          data: {
+            data: JSON.parse(localStorage.getItem("category"))
+          }
+        };
         const categoryCount = res.data.data.map(item => {
           return {
             ...item,
@@ -80,10 +83,31 @@ export default {
             postList: []
           };
         });
-        console.log(categoryCount);
         this.categoryList = categoryCount;
+        console.log(this.categoryList);
         this.getArticlePosts();
-      });
+      } else {
+        this.$axios({
+          url: "/category",
+          method: "get"
+        }).then(res => {
+          //往得到的分类列表里加两个键值对，pageIndex pageSize
+          const categoryCount = res.data.data.map(item => {
+            return {
+              ...item,
+              //加载组件的数据
+              loading: false, //为false时，表示非加载中，加载中，loading为true
+              finished: false, //为false时，表示加载未完成
+              pageIndex: 1,
+              pageSize: 3,
+              postList: []
+            };
+          });
+          console.log(categoryCount);
+          this.categoryList = categoryCount;
+          this.getArticlePosts();
+        });
+      }
     },
     onLoad() {
       console.log("加载下一页");

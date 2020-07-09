@@ -80,7 +80,7 @@ axios.interceptors.response.use(res => {
 })
 
 //设置一个全局过滤器,用来筛选合适的地址
-Vue.filter("fixImgUrl", function () {
+Vue.filter("fixImgUrl", function (url) {
   const fullUrlReg = /^http/
   if (fullUrlReg.test(url)) {
     return url

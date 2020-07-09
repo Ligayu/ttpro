@@ -6,7 +6,7 @@
         <p>点击删除以下频道</p>
         <div class="deleCon">
           <span v-for="(item,index) in deleList" :key="item.id">
-            {{item}}
+            {{item.name}}
             <i class="iconfont icon-guanbi" @click="deleCategory(index)"></i>
           </span>
         </div>
@@ -38,33 +38,46 @@ export default {
     newsBar
   },
   mounted() {
-    this.$axios({
-      url: "/category",
-      method: "get"
-    }).then(res => {
-      this.categoryList = res.data.data.filter(item => {
-        return item.name != "" && item.name != "关注" && item.name != "头条";
-      });
+    if (localStorage.getItem("addList")) {
+      let res = {
+        data: {
+          data: JSON.parse(localStorage.getItem("addList"))
+        }
+      };
+      this.categoryList = res.data.data;
+      this.deleList = JSON.parse(localStorage.getItem("category"));
       console.log(this.categoryList);
-    });
+    } else {
+      this.$axios({
+        url: "/category",
+        method: "get"
+      }).then(res => {
+        this.categoryList = res.data.data;
+        console.log(this.categoryList);
+      });
+    }
   },
   methods: {
     back() {
       this.$router.back();
     },
     deleCategory(data) {
-      this.categoryList.push({ name: this.deleList[data] });
+      this.categoryList.push(this.deleList[data]);
       this.deleList = this.deleList.filter((item, index) => {
         return index != data;
-        console.log(this.deleList);
       });
+      localStorage.setItem("category", JSON.stringify(this.deleList));
+      localStorage.setItem("addList", JSON.stringify(this.categoryList));
       this.$toast.success("删除成功");
     },
     addCategory(data) {
-      this.deleList.push(this.categoryList[data].name);
-      this.categoryList = this.categoryList.filter(item => {
+      this.deleList.push(this.categoryList[data]);
+
+      this.categoryList = this.categoryList.filter((item, index) => {
         return item.name != this.categoryList[data].name;
       });
+      localStorage.setItem("category", JSON.stringify(this.deleList));
+      localStorage.setItem("addList", JSON.stringify(this.categoryList));
       this.$toast.success("添加成功");
     }
   }

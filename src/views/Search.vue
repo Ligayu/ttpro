@@ -5,7 +5,12 @@
         <i class="iconfont icon-tuichu" @click="back"></i>
       </div>
       <div class="hd_search">
-        <inputDom class="clearStyle" placeholderText="搜索关键字" @changeText="Keyword" />
+        <inputDom
+          class="clearStyle"
+          placeholderText="搜索关键字"
+          @changeText="Keyword"
+          :transText="textIn"
+        />
         <i class="iconfont icon-sousuo"></i>
       </div>
       <div class="searchBtn" @click="toSearch">搜索</div>

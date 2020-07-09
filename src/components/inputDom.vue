@@ -31,10 +31,17 @@ export default {
   },
   // eyeIconShow是父组件传过来的，判断输入框眼睛字体图标是否显示
   props: ["placeholderText", "textType", "standard", "errorMsg", "eyeIconShow"],
+
   watch: {
     textInput(newVal) {
       //把父组件传过来的文本类型储存在子组件的数据里
+
       this.reciveType = this.textType;
+
+      //当密码输入框为空时让文本类型为不可见
+      if (newVal === "") {
+        this.toggleIcon();
+      }
       let regExp = new RegExp(this.standard);
       this.flag = regExp.test(newVal);
 
@@ -91,7 +98,7 @@ export default {
   }
   .eyeIcon {
     position: absolute;
-    top: 4.78vw;
+    top: 3.78vw;
     right: 1.78vw;
     font-size: 4.33vw;
   }

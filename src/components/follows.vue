@@ -37,7 +37,8 @@ export default {
       console.log(this.commentData);
       const userInfo = {
         parent_id: this.commentData.id,
-        content: this.commentData.content
+        content: this.commentData.content,
+        nickname: this.commentData.user.nickname
       };
       this.$emit("ToReplay", userInfo);
     }
