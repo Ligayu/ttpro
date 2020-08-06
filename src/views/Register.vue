@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <backBar @backBtn="back" />
     <div class="logo">
       <span class="iconfont icon-longmao"></span>
     </div>
@@ -38,22 +39,26 @@
 <script>
 import inputDom from "@/components/inputDom.vue";
 import clickBtn from "@/components/clickBtn.vue";
-
+import backBar from "@/components/backBar.vue";
 export default {
   data() {
     return {
       username: "",
       password: "",
       nickname: "",
-      show: false
+      show: false,
     };
   },
   components: {
     //谨记要注册子组件
     inputDom,
-    clickBtn
+    clickBtn,
+    backBar,
   },
   methods: {
+    back() {
+      this.$router.go(-1);
+    },
     changeName(data) {
       this.username = data;
     },
@@ -71,10 +76,10 @@ export default {
         data: {
           username: this.username,
           password: this.password,
-          nickname: this.nickname
-        }
+          nickname: this.nickname,
+        },
       })
-        .then(res => {
+        .then((res) => {
           if (res.data.message === "注册成功") {
             //显示过渡动画
             this.show = true;
@@ -88,9 +93,9 @@ export default {
             this.$toast.fail(res.data.message);
           }
         })
-        .catch(err => {});
-    }
-  }
+        .catch((err) => {});
+    },
+  },
 };
 </script>
 
@@ -98,7 +103,10 @@ export default {
 .container {
   background-color: rgb(216, 237, 242);
   height: 100%;
-  padding: 19.44vw 8.33vw 0;
+  padding: 0.44vw 8.33vw 0;
+  .backBar {
+    margin-bottom: 10vw;
+  }
   .logo {
     text-align: center;
     .iconfont {

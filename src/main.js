@@ -42,7 +42,8 @@ Vue.use(Uploader);
 // 设置基准路径
 //组件模板渲染时，使用$axios.defaults.baseURL，因为Vue.prototype.$axios = axios
 //axios在Vue的原型链上，赋值给了$axios
-axios.defaults.baseURL = 'http://127.0.0.1:3000'
+// axios.defaults.baseURL = 'http://127.0.0.1:3000'
+axios.defaults.baseURL = 'http://157.122.54.189:9083'
 
 
 // 全局设置请求头

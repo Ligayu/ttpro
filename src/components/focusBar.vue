@@ -3,7 +3,7 @@
     <img :src="$axios.defaults.baseURL+transList.head_img" />
     <div class="fb_content">
       <p>{{transList.nickname}}</p>
-      <span>{{transList.create_date.split('T')[0]}}</span>
+      <span v-if="transList.create_date">{{transList.create_date.split('T')[0]}}</span>
     </div>
     <button v-if="isSub==true" @click="disSub">{{transFocus}}</button>
     <button class="Subcolor" v-else @click="Sub">关注</button>
@@ -19,8 +19,8 @@ export default {
     },
     Sub() {
       this.$emit("turnSub");
-    }
-  }
+    },
+  },
 };
 </script>
 

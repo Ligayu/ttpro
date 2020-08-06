@@ -1,17 +1,24 @@
 <template>
   <div class="container">
     <div class="header" v-if="userInfo">
-      <img class="imgBlur" :src="$axios.defaults.baseURL+userInfo.head_img" />
+      <img
+        class="imgBlur"
+        :src="(userInfo.head_img || 'https://tse1-mm.cn.bing.net/th/id/OIP.y-0xaF_0kfQtBIv7jmev9AHaHa?pid=Api&rs=1') |fixImgUrl"
+      />
       <div class="hd_content">
         <div class="headImg">
-          <img :src="$axios.defaults.baseURL+userInfo.head_img" />
+          <img
+            :src="(userInfo.head_img || 'https://tse1-mm.cn.bing.net/th/id/OIP.y-0xaF_0kfQtBIv7jmev9AHaHa?pid=Api&rs=1') |fixImgUrl "
+          />
         </div>
         <div class="userName">
           <p>
             <i v-if="userInfo.gender==1" class="iconfont icon-xingbie man"></i>
             <i v-else class="iconfont icon-xingbie1 women"></i>
             {{userInfo.nickname}}
-            <span>{{userInfo.create_date.split('T')[0]}}</span>
+            <span
+              v-if="userInfo.create_date"
+            >{{userInfo.create_date.split('T')[0]}}</span>
           </p>
         </div>
       </div>
@@ -42,7 +49,8 @@ export default {
   data() {
     return {
       userInfo: null,
-      show: false
+      show: false,
+      defaultHeadImg: "@/assets/06.jpg",
     };
   },
   mounted() {
@@ -52,8 +60,8 @@ export default {
       // headers: {
       //   Authorization: "Bearer " + localStorage.getItem("token")
       // },
-      method: "get"
-    }).then(res => {
+      method: "get",
+    }).then((res) => {
       const { message, data } = res.data;
       if (message == "获取成功") {
         this.userInfo = data;
@@ -65,7 +73,7 @@ export default {
   },
   components: {
     navBar,
-    clickBtn
+    clickBtn,
   },
   methods: {
     edit() {
@@ -94,8 +102,8 @@ export default {
     },
     toHome() {
       this.$router.push("/index");
-    }
-  }
+    },
+  },
 };
 </script>
 

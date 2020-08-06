@@ -6,7 +6,7 @@
     <div class="another_littleFunction" v-if="isTextarea">
       <textarea
         rows="3"
-        :placeholder="'回复@'+transInfo.nickname"
+        :placeholder="'回复@'+(transInfo.nickname || transUser.nickname)"
         @blur="toInput"
         ref="textarea"
         v-model="content"
@@ -40,7 +40,7 @@ export default {
     return {
       isTextarea: false,
       content: "",
-      show: false
+      show: false,
     };
   },
   methods: {
@@ -63,7 +63,7 @@ export default {
       console.log(content);
 
       const data = {
-        content
+        content,
       };
       if (this.transInfo.parent_id) {
         data.parent_id = this.transInfo.parent_id;
@@ -71,20 +71,31 @@ export default {
       this.$axios({
         url: "/post_comment/" + this.userid,
         data: data,
-        method: "post"
-      }).then(res => {
+        method: "post",
+      }).then((res) => {
         console.log(res);
-        this.content = "";
+
+        if (res.data.message == "评论发布成功") {
+          // 优化1. 提醒父页面更新评论数据
+          //显示过渡动画
+          this.show = true;
+          setTimeout(() => {
+            this.show = false;
+            this.$emit("reloadComment");
+          }, 3000);
+          this.content = "";
+        }
+
         //显示过渡动画
-        this.show = true;
-        setTimeout(() => {
-          this.show = false;
-          location.reload();
-        }, 3000);
+        // this.show = true;
+        // setTimeout(() => {
+        //   this.show = false;
+        //   location.reload();
+        // }, 3000);
       });
-    }
+    },
   },
-  props: ["userid", "changeStar", "setPlaceholder", "transInfo"]
+  props: ["userid", "changeStar", "setPlaceholder", "transInfo", "transUser"],
 };
 </script>
 

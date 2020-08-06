@@ -1,10 +1,13 @@
 <template>
   <div class="follows" v-if="commentData">
     <div class="hd_follow">
-      <img src="@/assets/06.jpg" alt />
+      <img
+        :src=" (commentData.user.head_img || 'https://tse1-mm.cn.bing.net/th/id/OIP.y-0xaF_0kfQtBIv7jmev9AHaHa?pid=Api&rs=1')|fixImgUrl"
+        alt
+      />
       <div class="followTip">
         <p>{{commentData.user.nickname}}</p>
-        <i>{{commentData.create_date.split('T')[0]}}</i>
+        <i v-if="commentData.create_date">{{commentData.create_date.split('T')[0]}}</i>
       </div>
       <span @click="mainReply">回复</span>
     </div>
@@ -24,7 +27,7 @@ import parentComment from "@/Comment/parentComment.vue";
 export default {
   props: ["commentData"],
   components: {
-    parentComment
+    parentComment,
   },
   methods: {
     //从父评论传回来的父id和content
@@ -38,11 +41,11 @@ export default {
       const userInfo = {
         parent_id: this.commentData.id,
         content: this.commentData.content,
-        nickname: this.commentData.user.nickname
+        nickname: this.commentData.user.nickname,
       };
       this.$emit("ToReplay", userInfo);
-    }
-  }
+    },
+  },
 };
 </script>
 

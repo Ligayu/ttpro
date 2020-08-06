@@ -9,7 +9,7 @@
     <div class="parent_content">
       <div class="ParentTip">
         <p>{{parentData.user.nickname}}</p>
-        <i>{{parentData.create_date.split('T')[0]}}</i>
+        <i v-if="parentData.create_date">{{parentData.create_date.split('T')[0]}}</i>
       </div>
       <div class="mainCon">
         <span>{{parentData.content}}</span>
@@ -27,13 +27,13 @@ export default {
     parentReply() {
       this.$emit("parentReply", {
         parent_id: this.parentData.id,
-        nickname: this.parentData.user.nickname
+        nickname: this.parentData.user.nickname,
       });
     },
     circleReply(parentInfo) {
       this.$emit("parentReply", parentInfo);
-    }
-  }
+    },
+  },
 };
 </script>
 

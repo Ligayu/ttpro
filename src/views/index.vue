@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="tansList">
-      <van-tabs v-model="active" swipeable>
+      <van-tabs v-model="active" sticky swipeable>
         <van-tab v-for="(category,index) in categoryList" :title="category.name" :key="index">
           <!-- **需要禁止页面挂载时组件自动获取数据** (因为和我们的 mounted 操作重复了) :immediate-check="false" -->
           <van-list
@@ -47,18 +47,32 @@ export default {
   data() {
     return {
       active: 0,
-      categoryList: []
+      categoryList: [],
+      winHight: 0,
     };
   },
   components: {
     messageItem,
-    inputDom
+    inputDom,
   },
   mounted() {
     //获取文章栏目
     this.getCategories();
+
+    // window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
+    // handleScroll() {
+    //   this.winHight =
+    //     document.documentElement.scrollTop || document.body.scrollTop;
+
+    //   console.log(this.winHight);
+    // },
+    // setHight() {
+    //   console.log("high" + this.winHight);
+    //   document.body.clientHeight = this.winHight;
+    // },
+
     user() {
       this.$router.push("/User");
     },
@@ -69,10 +83,10 @@ export default {
       if (JSON.parse(localStorage.getItem("category"))) {
         let res = {
           data: {
-            data: JSON.parse(localStorage.getItem("category"))
-          }
+            data: JSON.parse(localStorage.getItem("category")),
+          },
         };
-        const categoryCount = res.data.data.map(item => {
+        const categoryCount = res.data.data.map((item) => {
           return {
             ...item,
             //加载组件的数据
@@ -80,7 +94,7 @@ export default {
             finished: false, //为false时，表示加载未完成
             pageIndex: 1,
             pageSize: 3,
-            postList: []
+            postList: [],
           };
         });
         this.categoryList = categoryCount;
@@ -89,10 +103,10 @@ export default {
       } else {
         this.$axios({
           url: "/category",
-          method: "get"
-        }).then(res => {
+          method: "get",
+        }).then((res) => {
           //往得到的分类列表里加两个键值对，pageIndex pageSize
-          const categoryCount = res.data.data.map(item => {
+          const categoryCount = res.data.data.map((item) => {
             return {
               ...item,
               //加载组件的数据
@@ -100,7 +114,7 @@ export default {
               finished: false, //为false时，表示加载未完成
               pageIndex: 1,
               pageSize: 3,
-              postList: []
+              postList: [],
             };
           });
           console.log(categoryCount);
@@ -132,9 +146,9 @@ export default {
         params: {
           category: categoryId,
           pageIndex: currentCategory.pageIndex,
-          pageSize: currentCategory.pageSize
-        }
-      }).then(res => {
+          pageSize: currentCategory.pageSize,
+        },
+      }).then((res) => {
         const { data } = res.data;
         // console.log(data);
         // 获取完了对应的文章列表数据,
@@ -151,15 +165,16 @@ export default {
           currentCategory.finished = true;
         }
       });
-    }
+    },
   },
   watch: {
     active(newVal) {
+      // this.setHight();
       //如果点击的栏目的postList没有数据，即长度为0，则加载，否则不加载，因为已有
       if (this.categoryList[newVal].postList.length == 0)
         this.getArticlePosts();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -217,7 +232,7 @@ export default {
       top: 0;
       right: 0;
       width: 12vw;
-      height: 12vw;
+      height: 10vw;
       line-height: 12vw;
       text-align: center;
       background-color: white;

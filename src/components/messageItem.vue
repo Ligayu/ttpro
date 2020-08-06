@@ -5,13 +5,13 @@
         <p>{{postData.title}}</p>
       </div>
       <div class="info_img" v-if="postData.type == 1 && postData.cover.length<=3">
-        <img :src="postData.cover[0].url" alt />
-        <img :src="postData.cover[1].url" alt v-if="postData.cover[1]" />
-        <img :src="postData.cover[2].url" alt v-if="postData.cover[2]" />
+        <img :src="postData.cover[0].url |fixImgUrl" alt />
+        <img :src="postData.cover[1].url |fixImgUrl" alt v-if="postData.cover[1]" />
+        <img :src="postData.cover[2].url |fixImgUrl" alt v-if="postData.cover[2]" />
       </div>
       <!-- 渲染视频 -->
       <div class="info_img" v-if="postData.type == 2 && postData.cover.length>=1">
-        <img :src="postData.cover[0].url" />
+        <img :src="postData.cover[0].url |fixImgUrl" />
         <i class="iconfont icon-bofang"></i>
       </div>
     </div>

@@ -9,10 +9,12 @@
           <h3>{{articleList.title}}</h3>
           <div class="tips">
             <span>{{articleList.user.nickname}}</span>
-            <i>{{articleList.user.create_date.split('T')[0]}}</i>
+            <i v-if="articleList.user.create_date">{{articleList.user.create_date.split('T')[0]}}</i>
           </div>
         </div>
+        <!-- 当数据是字符串时，标签用v-html渲染 -->
         <div class="getContent" v-html="articleList.content"></div>
+
         <div class="con_footer">
           <div v-if="articleList.has_like==true" class="Btn" @click="agree">
             <i class="iconfont icon-zanpress zan"></i>
@@ -34,7 +36,7 @@
           <h3>{{articleList.title}}</h3>
           <div class="tips">
             <span>{{articleList.user.nickname}}</span>
-            <i>{{articleList.user.create_date.split('T')[0]}}</i>
+            <i v-if="articleList.user.create_date">{{articleList.user.create_date.split('T')[0]}}</i>
           </div>
         </div>
         <div class="getContent">
@@ -63,6 +65,8 @@
       </div>
       <div class="follows_con" v-if="transComments">
         <p>精彩跟帖</p>
+
+        <!-- 回复的组件 -->
         <follows
           @ToReplay="Reply"
           v-for="(item,index) in transComments"
@@ -70,10 +74,12 @@
           :commentData="item"
         ></follows>
         <articleBottom
+          :transUser="articleList.user"
           :userid="$route.params.id"
           @toCollection="collection"
           :changeStar="articleList.has_star"
           :transInfo="transData"
+          @reloadComment="reload"
           ref="controlInput"
         ></articleBottom>
       </div>
@@ -91,29 +97,29 @@ export default {
       articleList: null,
       likeStatus: "",
       transComments: [],
-      transData: {}
+      transData: {},
     };
   },
   components: {
     newsBar,
     follows,
-    articleBottom
+    articleBottom,
   },
   mounted() {
     //渲染文章信息
     this.$axios({
       url: "/post/" + this.$route.params.id,
-      method: "get"
-    }).then(res => {
+      method: "get",
+    }).then((res) => {
       this.articleList = res.data.data;
-      // console.log(this.articleList);
+      console.log("aticle", this.articleList);
     });
     //渲染评论内容
     this.$axios({
       url: "/post_comment/" + this.$route.params.id,
-      method: "get"
-    }).then(res => {
-      // console.log(res.data);
+      method: "get",
+    }).then((res) => {
+      console.log("comment", res.data);
       this.transComments = res.data.data;
       this.transComments.length = 3;
     });
@@ -125,8 +131,8 @@ export default {
     agree() {
       this.$axios({
         url: "/post_like/" + this.articleList.id,
-        method: "get"
-      }).then(res => {
+        method: "get",
+      }).then((res) => {
         if (res.data.message == "点赞成功") {
           this.articleList.like_length += 1;
           this.articleList.has_like = true;
@@ -143,20 +149,20 @@ export default {
         this.articleList.has_follow = false;
         this.$axios({
           url: "/user_unfollow/" + this.articleList.user.id,
-          method: "get"
-        }).then(res => {});
+          method: "get",
+        }).then((res) => {});
       } else {
         this.articleList.has_follow = true;
         this.$axios({
           url: "/user_follows/" + this.articleList.user.id,
-          method: "get"
-        }).then(res => {});
+          method: "get",
+        }).then((res) => {});
       }
     },
     collection() {
       this.$axios({
-        url: "/post_star/" + this.articleList.id
-      }).then(res => {
+        url: "/post_star/" + this.articleList.id,
+      }).then((res) => {
         console.log(res);
         if (res.data.message == "取消成功") {
           this.articleList.has_star = false;
@@ -171,8 +177,19 @@ export default {
 
       console.log(this.transData);
       this.$refs.controlInput.toSendcomment();
-    }
-  }
+    },
+    reload() {
+      //渲染评论内容
+      this.$axios({
+        url: "/post_comment/" + this.$route.params.id,
+        method: "get",
+      }).then((res) => {
+        console.log("comment", res.data);
+        this.transComments = res.data.data;
+        this.transComments.length = 3;
+      });
+    },
+  },
 };
 </script>
 
@@ -227,10 +244,23 @@ export default {
         margin-top: 4.44vw;
         font-size: 3.8vw;
         width: 100%;
+        /deep/ p {
+          img {
+            width: 100%;
+          }
+        }
         /deep/ .page {
           p {
             strong {
               margin: 8vw 0;
+            }
+            /deep/ a {
+              width: 94.6vw;
+              img {
+                width: 100%;
+                // width: 94.6vw;
+                margin: 3.33vw 0;
+              }
             }
           }
           .photo {
@@ -238,6 +268,7 @@ export default {
             // font-size: 3.61vw;
             img {
               width: 100%;
+              // width: 94.6vw;
               margin: 3.33vw 0;
             }
           }

@@ -11,8 +11,10 @@
       error:!flag
       }"
       @blur="showTip"
+      ref="input"
     />
-    <i v-if="eyeIconShow==='1'" :class="eye?openEye:closeEye" @click="toggleIcon"></i>
+    <!-- <i v-if="eyeIconShow==='1'" :class="eye?openEye:closeEye" @click="toggleIcon"></i> -->
+    <i v-if="eyeIconShow==='1'" :class="reciveType=='text'?openEye:closeEye" @click="toggleIcon"></i>
     <i class="iconfont icon-guanbi" ref="changStatus" @click="cleanText"></i>
   </div>
 </template>
@@ -31,17 +33,18 @@ export default {
   },
   // eyeIconShow是父组件传过来的，判断输入框眼睛字体图标是否显示
   props: ["placeholderText", "textType", "standard", "errorMsg", "eyeIconShow"],
-
+  mounted() {
+    this.reciveType = this.textType;
+  },
   watch: {
     textInput(newVal) {
-      //把父组件传过来的文本类型储存在子组件的数据里
-
-      this.reciveType = this.textType;
+      //  this.reciveType = this.textType; 这行代码会使得当没输入密码时点击眼睛
+      //在眼睛状态为睁开时输入，还是会显示***，而不是文本
 
       //当密码输入框为空时让文本类型为不可见
-      if (newVal === "") {
-        this.toggleIcon();
-      }
+      // if (newVal === "") {
+      //   this.toggleIcon();
+      // }
       let regExp = new RegExp(this.standard);
       this.flag = regExp.test(newVal);
 
@@ -64,7 +67,10 @@ export default {
       //父组件更新，子组件中的prop值也会更新，但子组件不能修改由父组件传递过来的值
       //应当定义一个子组件自己的data，再进行修改
       this.reciveType = this.reciveType === "password" ? "text" : "password";
-      this.eye = !this.eye;
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
+      // this.eye = !this.eye;
     },
     showTip() {
       if (!this.flag) {

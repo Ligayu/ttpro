@@ -20,13 +20,21 @@
         <div class="history">
           <h3>历史搜索</h3>
           <div class="history_con">
-            <span v-for="(item,index) in historyList" :key="index">{{item}}</span>
+            <span
+              v-for="(item,index) in historyList"
+              :key="index"
+              @click="historyClick(item)"
+            >{{item}}</span>
           </div>
         </div>
         <div class="Topsearch">
           <h3>热门搜索</h3>
           <div class="Topsearch_con">
-            <p v-for="(item,index) in TopsearchList" :key="index">{{index+1}}.{{item}}</p>
+            <p
+              v-for="(item,index) in TopsearchList"
+              :key="index"
+              @click="hotClick(item)"
+            >{{index+1}}.{{item}}</p>
             <!-- <p>2.特朗普为中国卧底实锤!!!</p>
             <p>3.中美两国同时在南海军演!!!</p>-->
           </div>
@@ -47,20 +55,16 @@ export default {
       searchList: [],
       keyword: "",
       historyList: [],
-      TopsearchList: [
-        "中国牛逼",
-        "特朗普为中国卧底实锤!!!",
-        "中美两国同时在南海军演!!!"
-      ]
+      TopsearchList: ["周杰伦", "阿信", "王祖贤"],
     };
   },
   components: {
     inputDom,
-    messageItem
+    messageItem,
   },
   mounted() {
     this.searchList = [];
-    this.historyList = JSON.parse(localStorage.getItem("history"));
+    this.historyList = JSON.parse(localStorage.getItem("history")) || [];
   },
   methods: {
     Keyword(newVal) {
@@ -79,17 +83,26 @@ export default {
         url: "/post_search",
         method: "get",
         params: {
-          keyword: this.keyword
-        }
-      }).then(res => {
+          keyword: this.keyword,
+        },
+      }).then((res) => {
         console.log(res.data);
         this.searchList = res.data.data;
       });
     },
     back() {
       this.$router.back();
-    }
-  }
+    },
+    historyClick(data) {
+      this.keyword = data;
+      this.toSearch();
+    },
+    hotClick(hot) {
+      this.keyword = hot;
+      this.toSearch();
+    },
+    textIn() {},
+  },
 };
 </script>
 

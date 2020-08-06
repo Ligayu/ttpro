@@ -1,6 +1,6 @@
 <template>
   <div class="replayBar">
-    <div class="time">
+    <div class="time" v-if="transComment.create_date">
       <span>{{transComment.create_date.split('T')[0]}}</span>
       <i>{{transComment.create_date.split('T')[1].split('.')[0]}}</i>
     </div>
@@ -9,7 +9,9 @@
       <div class="parent_content" v-if="transComment.parent">
         <div class="ParentTip">
           <p>{{transComment.parent.user.nickname}}</p>
-          <i>{{transComment.parent.create_date.split('T')[0]}}</i>
+          <i
+            v-if="transComment.parent.create_date"
+          >{{transComment.parent.create_date.split('T')[0]}}</i>
         </div>
         <div class="mainCon">
           <span>{{transComment.parent.content}}</span>
@@ -30,8 +32,8 @@ export default {
   methods: {
     toMore() {
       this.$emit("more");
-    }
-  }
+    },
+  },
 };
 </script>
 

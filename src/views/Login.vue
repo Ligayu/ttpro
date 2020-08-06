@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <backBar @backBtn="back" />
     <div class="logo">
       <span class="iconfont icon-longmao"></span>
     </div>
@@ -38,20 +39,24 @@
 <script>
 import inputDom from "@/components/inputDom.vue";
 import clickBtn from "@/components/clickBtn.vue";
-
+import backBar from "@/components/backBar.vue";
 export default {
   data() {
     return {
       username: "",
       password: "",
-      show: false
+      show: false,
     };
   },
   components: {
     inputDom,
-    clickBtn
+    clickBtn,
+    backBar,
   },
   methods: {
+    back() {
+      this.$router.go(-1);
+    },
     changeName(data) {
       this.username = data;
     },
@@ -71,9 +76,9 @@ export default {
         method: "post",
         data: {
           username: this.username,
-          password: this.password
-        }
-      }).then(res => {
+          password: this.password,
+        },
+      }).then((res) => {
         const { message, data } = res.data;
         if (message === "登录成功") {
           // this.$toast.success(message);
@@ -92,8 +97,8 @@ export default {
           this.$toast.fail(message);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -101,7 +106,10 @@ export default {
 .container {
   background-color: rgb(216, 237, 242);
   height: 100%;
-  padding: 19.44vw 8.33vw 0;
+  padding: 0.44vw 8.33vw 0;
+  .backBar {
+    margin-bottom: 10vw;
+  }
   .logo {
     text-align: center;
     .iconfont {
