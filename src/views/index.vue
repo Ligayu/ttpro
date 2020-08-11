@@ -48,7 +48,6 @@ export default {
     return {
       active: 0,
       categoryList: [],
-      winHight: 0,
     };
   },
   components: {
@@ -58,21 +57,8 @@ export default {
   mounted() {
     //获取文章栏目
     this.getCategories();
-
-    // window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
-    // handleScroll() {
-    //   this.winHight =
-    //     document.documentElement.scrollTop || document.body.scrollTop;
-
-    //   console.log(this.winHight);
-    // },
-    // setHight() {
-    //   console.log("high" + this.winHight);
-    //   document.body.clientHeight = this.winHight;
-    // },
-
     user() {
       this.$router.push("/User");
     },
@@ -135,7 +121,7 @@ export default {
       const categoryId = this.categoryList[this.active].id;
       const currentCategory = this.categoryList[this.active]; //当前的栏目
       //onload和getArticlePosts中的currentCategory
-      //对象使用的是引用赋值。当我们把一个对象赋值给一个新的变量时，赋的其实是该对象的在堆中的地址，
+      //对象使用的是引用赋值。当我们把一个对象赋值给一个新的变量时，赋的其实是该对象的在栈中的地址，
       //而不是堆中的数据。也就是两个对象指向的是同一个存储空间，无论哪个对象发生改变，
       //其实都是改变的存储空间的内容，因此，两个对象是联动的
 
