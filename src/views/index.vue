@@ -19,7 +19,7 @@
           <van-list
             v-model="category.loading"
             :finished="category.finished"
-            finished-text="没有更多了"
+            finished-text="没有更多了233"
             :immediate-check="false"
             @load="onLoad"
           >
