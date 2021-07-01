@@ -113,6 +113,12 @@ export default {
     }).then((res) => {
       this.articleList = res.data.data;
       console.log("aticle", this.articleList);
+      console.log('latone')
+      console.log('latone')
+      console.log('latone')
+      console.log('latone')
+      // 第三方大国
+      // 是非得失范德萨发
     });
     //渲染评论内容
     this.$axios({
