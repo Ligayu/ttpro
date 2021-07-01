@@ -113,6 +113,7 @@ export default {
     }).then((res) => {
       this.articleList = res.data.data;
       console.log("aticle", this.articleList);
+      console.log('dfa')
     });
     //渲染评论内容
     this.$axios({
