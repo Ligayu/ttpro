@@ -115,6 +115,7 @@ export default {
       console.log("aticle", this.articleList);
       console.log('dfa')
       console.log('dgs')
+      console.log('latone')
     });
     //渲染评论内容
     this.$axios({
