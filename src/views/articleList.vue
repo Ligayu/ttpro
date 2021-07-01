@@ -117,6 +117,8 @@ export default {
       console.log('dgs')
       console.log('latone')
       console.log('cao搞错了')
+      console.log('latone')
+      console.log('latone')
     });
     //渲染评论内容
     this.$axios({
