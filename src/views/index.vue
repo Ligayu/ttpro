@@ -57,6 +57,9 @@ export default {
   mounted() {
     //获取文章栏目
     this.getCategories();
+      console.log("comment", res.data);
+      console.log("comment", res.data);
+
   },
   methods: {
     user() {
