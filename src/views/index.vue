@@ -67,6 +67,8 @@ export default {
       console.log(JSON.parse(localStorage.getItem("category")));
       console.log(JSON.parse(localStorage.getItem("category")));
       console.log(JSON.parse(localStorage.getItem("category")));
+      console.log(JSON.parse(localStorage.getItem("category")));
+      console.log(JSON.parse(localStorage.getItem("category")));
       if (JSON.parse(localStorage.getItem("category"))) {
         let res = {
           data: {
