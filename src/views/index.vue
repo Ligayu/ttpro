@@ -59,7 +59,8 @@ export default {
     this.getCategories();
       console.log("comment", res.data);
       console.log("comment", res.data);
-
+      console.log("comment", res.data);
+      // dsfsgfsdg
   },
   methods: {
     user() {
