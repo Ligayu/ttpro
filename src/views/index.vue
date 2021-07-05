@@ -66,6 +66,7 @@ export default {
       //获取文章栏目的函数
       console.log(JSON.parse(localStorage.getItem("category")));
   console.log(JSON.parse(localStorage.getItem("category")));
+  console.log(JSON.parse(localStorage.getItem("category")));
       if (JSON.parse(localStorage.getItem("category"))) {
         let res = {
           data: {
